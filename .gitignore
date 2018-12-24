@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/elm,git,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=elm,git,visualstudiocode
+# Created by https://www.gitignore.io/api/elm,git,visualstudiocode,macos
+# Edit at https://www.gitignore.io/?templates=elm,git,visualstudiocode,macos
 
 ### Elm ###
 # elm-package generated files
@@ -23,6 +23,34 @@ repl-temp-*
 *_LOCAL_*.txt
 *_REMOTE_*.txt
 
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -34,4 +62,4 @@ repl-temp-*
 # Ignore all local history of files
 .history
 
-# End of https://www.gitignore.io/api/elm,git,visualstudiocode
+# End of https://www.gitignore.io/api/elm,git,visualstudiocode,macos
