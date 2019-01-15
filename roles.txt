@@ -1,0 +1,5 @@
+student
+company
+bedkom
+bedkom_admin
+superadmin
