@@ -1,0 +1,66 @@
+{
+  "name": "bedkom",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JonasTriki/bedkom.git"
+  },
+  "dependencies": {
+    "@types/jest": "24.0.11",
+    "@types/node": "11.12.0",
+    "@types/react": "16.8.10",
+    "@types/react-dom": "16.8.3",
+    "axios": "^0.18.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-intl": "^2.8.0",
+    "react-redux": "^6.0.1",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8",
+    "redux": "^4.0.1",
+    "redux-saga": "^1.0.2",
+    "styled-components": "^4.2.0",
+    "typescript": "3.3.4000"
+  },
+  "scripts": {
+    "predeploy": "REACT_APP_STAGE=dev npm run build",
+    "deploy": "aws s3 sync build/ s3://sartor-solutions-dev --delete",
+    "postdeploy": "aws cloudfront create-invalidation --distribution-id E13492CF2RNKL7 --paths '/*'",
+    "predeploy:prod": "REACT_APP_STAGE=prod npm run build",
+    "deploy:prod": "aws s3 sync build/ s3://sartor-solutions --delete",
+    "postdeploy:prod": "aws cloudfront create-invalidation --distribution-id E1IBODLJG2W0FQ --paths '/*'",
+    "trans:extract": "babel \"./src/**/*.tsx\" > /dev/null",
+    "trans:manage": "node ./scripts/translationsRunner.js",
+    "trans:clean": "rm -rf ./src/translations/extracted",
+    "prestart": "npm run trans:extract && npm run trans:manage && npm run trans:clean",
+    "start": "REACT_APP_STAGE=local react-scripts start",
+    "start:dev": "REACT_APP_STAGE=dev react-scripts start",
+    "start:prod": "REACT_APP_STAGE=prod react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/react-intl": "^2.3.17",
+    "@types/react-redux": "^7.0.5",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/styled-components": "^4.1.12",
+    "babel-plugin-react-intl": "^3.0.1",
+    "react-intl-translations-manager": "^5.0.3",
+    "redux-devtools": "^3.5.0"
+  }
+}

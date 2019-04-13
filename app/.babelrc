@@ -1,0 +1,8 @@
+{
+  "presets": ["@babel/typescript", "@babel/react"],
+  "plugins": [
+    ["react-intl", {
+      "messagesDir": "./src/translations/extracted"
+    }]
+  ]
+}

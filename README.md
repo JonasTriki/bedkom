@@ -1,1 +1,1 @@
-# Bedriftskomitéen v/ FU-ii + Elm = ❤️
+# Bedriftskomitéen v/echo + React/TS/Saga = ❤️
