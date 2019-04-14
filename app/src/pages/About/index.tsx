@@ -1,6 +1,12 @@
 import * as React from 'react';
+import {RouteComponentProps, withRouter} from "react-router";
+import {injectIntl, InjectedIntlProps} from "react-intl";
 
-export class About extends React.Component {
+interface AboutProps extends RouteComponentProps, InjectedIntlProps {
+
+}
+
+class About extends React.Component<AboutProps> {
   render() {
     return (
       <div>
@@ -9,3 +15,5 @@ export class About extends React.Component {
     )
   }
 }
+
+export default injectIntl(withRouter<AboutProps>(About));

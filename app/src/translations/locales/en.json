@@ -1,8 +1,16 @@
 {
   "app.title": "Bedriftskomitéen v/echo",
   "app.version": "Versjon {version}",
+  "choose.language": "Velg språk...",
+  "footer.text": "Bedriftskomitéen ved {echo}Designet og utviklet av {author}",
+  "language.english": "Engelsk",
+  "language.norwegian": "Norsk",
+  "login.choose.institution": "Velg institusjon...",
+  "login.header": "Logg inn til Bedkom",
+  "login.instructions": "<i>Instruksjoner</i><br />\n                <span class=\"emphasis\">Student</span>: Dersom du er ny til systemet, logg inn med ditt UiB brukernavn (f.eks: abc123) og passord.<br />\n                <span class=\"emphasis\">Bedrift</span>: Vi har sendt deg instruksjoner om hvordan du kan få tilgang til kontoen din.",
   "menu.about": "Om Bedkom",
   "menu.company": "For bedrifter",
   "menu.home": "Hjem",
-  "menu.presentations": "Presentasjoner"
+  "menu.presentations": "Presentasjoner",
+  "menu.sign-in": "Logg inn"
 }

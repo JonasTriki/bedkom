@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import withSplashScreen from './components/withSplashScreen';
+import withSplashScreen from './hocs/withSplashScreen';
 import {RootState} from "./store";
 import {connect} from "react-redux";
 

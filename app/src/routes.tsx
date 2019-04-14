@@ -6,9 +6,9 @@ import RestrictedRoute, {RestrictedRouteProps} from "./components/RestrictedRout
 import {Home} from "./pages/Home";
 import {Presentations} from "./pages/Presentations";
 import {Companies} from "./pages/Companies";
-import {About} from "./pages/About";
+import About from "./pages/About";
 import {Profile} from "./pages/Profile";
-import {Login} from "./pages/Login";
+import Login from "./pages/Login";
 import {NoMatch} from "./pages/NoMatch";
 
 export function routes(isAuthenticated: boolean) {

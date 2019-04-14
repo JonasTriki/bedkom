@@ -1,8 +1,9 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import config from "../config";
+import {ApiResponse} from '../models/ApiResponse';
 
 // Helper method to create endpoints to API.
-function endpoint(method: string, endpoint: string, payload: any, authToken?: string) {
+function endpoint<T>(method: string, endpoint: string, payload: any, authToken?: string) {
   const axiosParams: AxiosRequestConfig = {
     method,
     url: config.apiBaseUrl + endpoint,
@@ -13,17 +14,15 @@ function endpoint(method: string, endpoint: string, payload: any, authToken?: st
   if (authToken) {
     axiosParams.headers = {"Authorization": "JWT " + authToken};
   }
-  return axios(axiosParams);
+
+  return axios.request<T>(axiosParams);
 }
 
 /* -- users -- */
-export function usersLogin(username: string, password: string) {
-  return endpoint(
+export function usersLogin(username: string, password: string, org: string) {
+  return endpoint<ApiResponse>(
     "POST",
     "/users/login",
-    {
-      username,
-      password
-    }
+    {username, password, org}
   );
 }
