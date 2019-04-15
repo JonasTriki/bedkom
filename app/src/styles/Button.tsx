@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {darkBlue} from "../colors";
+import * as React from "react";
 
 interface ButtonProps {
   dark?: boolean;

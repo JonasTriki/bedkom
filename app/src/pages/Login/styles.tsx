@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {darkBlue, grayBorder} from "../../colors";
+import {darkBlue, grayBorder, redError} from "../../colors";
 
 export const Wrapper = styled.div`
   flex: 1;
@@ -20,8 +20,15 @@ export const Title = styled.div`
   margin-bottom: 2rem;
 `;
 
+export const Info = styled.div`
+  width: 30rem;
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  text-align: center;
+`;
+
 export const Form = styled.form`
-  width: 75%;
+  width: 20rem;
   display: flex;
   flex-direction: column;
   
@@ -32,12 +39,13 @@ export const Form = styled.form`
 
 interface InputProps {
   password?: boolean;
+  email?: boolean;
 }
 
-export const Input = styled.input.attrs(({password}: InputProps) => ({
+export const Input = styled.input.attrs(({password, email}: InputProps) => ({
 
   // Use password type if specified
-  type: password ? "password" : "text",
+  type: password ? "password" : (email ? "email" : "text"),
 
 }))<InputProps>`
   padding: .75rem;
@@ -47,6 +55,10 @@ export const Input = styled.input.attrs(({password}: InputProps) => ({
   
   border: 1px solid ${grayBorder};
   border-radius: .25rem;
+`;
+
+export const ErrorMessage = styled.div`
+  color: ${redError}
 `;
 
 export const Link = styled.span`
