@@ -9,13 +9,21 @@ export const messages = defineMessages({
     id: 'login.invalid.username.password',
     defaultMessage: 'Feil brukernavn/passord',
   },
+  invalidPassword: {
+    id: 'login.invalid.password',
+    defaultMessage: 'Feil passord',
+  },
   studentNotInformatics: {
     id: 'login.student.forbidden',
     defaultMessage: 'Fant ingen tilknytning til Institutt for informatikk. Er du informatikk-student?'
   },
+  unexpectedErrorLogin: {
+    id: 'login.unexpected.error.login',
+    defaultMessage: 'Klarte ikke å logge deg inn, prøv igjen om litt',
+  },
   unexpectedError: {
     id: 'login.unexpected.error',
-    defaultMessage: 'En uventet feil har oppstått, prøv å logge inn om litt',
+    defaultMessage: 'En uventet feil har oppstått, prøv igjen om litt',
   },
   username: {
     id: 'login.username',
@@ -28,6 +36,10 @@ export const messages = defineMessages({
   newPassword: {
     id: 'login.new-password',
     defaultMessage: 'Nytt passord'
+  },
+  feidePassword: {
+    id: 'login.feide-password',
+    defaultMessage: 'Feide-passord'
   },
   email: {
     id: 'login.email',

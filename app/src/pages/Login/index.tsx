@@ -1,15 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {RouteComponentProps, withRouter} from "react-router";
-import {FormattedMessage, FormattedHTMLMessage, injectIntl, InjectedIntlProps, defineMessages} from 'react-intl';
+import {ValueType} from "react-select/lib/types";
+import {connect} from "react-redux";
+import {FormattedMessage, FormattedHTMLMessage, injectIntl, InjectedIntlProps} from 'react-intl';
 import {Input, Wrapper, Container, Title, Form, Link, Instructions, ErrorMessage, Info} from "./styles";
 import {Button} from '../../styles/Button';
 import {StyledSelect} from '../../components/StyledSelect';
 import * as api from "../../api/endpoints";
-import {ValueType} from "react-select/lib/types";
 import {ApiResponse} from "../../models/ApiResponse";
 import {messages} from './messages';
+import {RootState} from "../../store";
+import {Dispatch} from "redux";
+import {User} from "../../models/User";
+import {userAuthenticated} from "../../api/actions";
 
-interface LoginProps extends RouteComponentProps, InjectedIntlProps {
+interface LoginProps extends InjectedIntlProps {
+  isAuthenticated: boolean;
+  userAuthenticated: (user: User) => any;
 }
 
 type OrgType = { label: string; value: string };
@@ -19,15 +25,14 @@ const orgValues = [
   {value: 'hvl', label: 'HVL'},
 ];
 
-type LoginStage = 'login' | 'first-login-setup' | 'user-verification';
+type LoginStage = 'login' | 'first-time-setup' | 'user-verification';
 
 interface FirstLogin {
   token: string;
-  firstName: string;
   email: string;
 }
 
-const Login = injectIntl<LoginProps>(({intl}) => {
+const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [org, setOrg] = useState(orgValues[0]);
@@ -38,12 +43,16 @@ const Login = injectIntl<LoginProps>(({intl}) => {
 
   // First-time setup
   const [verToken, setVerToken] = useState('');
-  const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
+  // User verification password
+  const [feidePassword, setFeidePassword] = useState('');
+
   // Reset error when user changes input
-  useEffect(() => setError(''), [username, password, org]);
+  useEffect(() => setError(''), [
+    username, password, org, stage, verToken, email, newPassword, feidePassword
+  ]);
 
   const actionRequired = (response: ApiResponse) => {
     switch (response.message) {
@@ -52,14 +61,13 @@ const Login = injectIntl<LoginProps>(({intl}) => {
         // User has to re-verify for the semester.
         setStage('user-verification');
         break;
-      case 'first-login-setup':
+      case 'first-time-setup':
 
         // First time login for a user; first-login setup is required.
         const firstLogin: FirstLogin = response.data;
         setVerToken(firstLogin.token);
-        setFirstName(firstLogin.firstName);
         setEmail(firstLogin.email);
-        setStage('first-login-setup');
+        setStage('first-time-setup');
         break;
       default:
         break;
@@ -67,28 +75,74 @@ const Login = injectIntl<LoginProps>(({intl}) => {
   };
 
   const loginClicked = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
     if (loading) return;
     setLoading(true);
 
-    // Stop reloading the page
-    e.preventDefault();
+    let response = await api.usersLogin(username, password, org.value);
+    if (!response) {
+      setError(intl.formatMessage(messages.unexpectedErrorLogin));
+      setLoading(false);
+      return;
+    }
+    const respData = response.data;
 
-    let response;
-    switch (stage) {
-      case 'login':
+    // Check our API result's status codes
+    switch (response.status) {
+      case 200:
 
-        // TODO: Input validation
-        response = await api.usersLogin(username, password, org.value);
+        // Signed in ok! Data contains user info.
+        return userAuthenticated(respData.data);
+      case 202:
+
+        // Action required qqby the user
+        actionRequired(respData);
         break;
-      case 'first-login-setup':
+      case 400:
+      case 401:
 
-        // TODO: Input validation
-        response = await api.usersPasswordSetup(username, newPassword, org.value, verToken, email);
+        // Invalid username/password combination
+        setError(intl.formatMessage(messages.invalidUsernamePassword));
         break;
-      case 'user-verification':
+      case 403:
 
+        // Student is not an informatics student
+        setError(intl.formatMessage(messages.studentNotInformatics));
+        break;
+      default:
+
+        // Unexpected error occured
+        setError(intl.formatMessage(messages.unexpectedErrorLogin));
         break;
     }
+    setLoading(false);
+  };
+
+  const setupLoginClicked = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    if (loading) return;
+    setLoading(true);
+
+    const response = await api.usersSetup(username, newPassword, verToken, email);
+    if (!response || response.status !== 200) {
+      setError(intl.formatMessage(messages.unexpectedError));
+      setLoading(false);
+      return;
+    }
+
+    // User set up correctly. Data contains user info.
+    userAuthenticated(response.data.data);
+  };
+
+  const verifyUserLoginClicked = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    if (loading) return;
+    setLoading(true);
+
+    const response = await api.usersVerify(username, feidePassword);
     if (!response) {
       setError(intl.formatMessage(messages.unexpectedError));
       setLoading(false);
@@ -99,19 +153,12 @@ const Login = injectIntl<LoginProps>(({intl}) => {
     switch (response.status) {
       case 200:
 
-        // Signed in ok!
-        console.log(response.data);
-        break;
-      case 202:
-
-        // Action required by the user
-        actionRequired(response.data);
-        break;
-      case 400:
+        // User verification ok! Data contains user info.
+        return userAuthenticated(response.data.data);
       case 401:
 
-        // Invalid username/password combination
-        setError(intl.formatMessage(messages.invalidUsernamePassword));
+        // Invalid Feide-password combination
+        setError(intl.formatMessage(messages.invalidPassword));
         break;
       case 403:
 
@@ -187,15 +234,14 @@ const Login = injectIntl<LoginProps>(({intl}) => {
       <Container>
         <Title>
           <FormattedMessage
-            id='login.first-login-setup.header'
-            defaultMessage='Heisann {name}!'
-            values={{name: firstName}}
+            id='login.first-time-setup.header'
+            defaultMessage='Velkommen til Bedkom!'
           />
         </Title>
         <Info>
           <FormattedMessage
-            id='login.first-login-setup.info'
-            defaultMessage='For vi kan opprette brukeren din, er du nødt til å se over at e-post adressen nedenfor stemmer, samt opprette nytt innloggings-passord.'
+            id='login.first-time-setup.info'
+            defaultMessage='Før vi kan opprette brukeren din, er du nødt til å se over at e-post adressen nedenfor stemmer, samt opprette nytt innloggings-passord.'
           />
         </Info>
         <Form>
@@ -213,7 +259,40 @@ const Login = injectIntl<LoginProps>(({intl}) => {
           />
           <Button
             dark spanned
-            onClick={loginClicked}>
+            onClick={setupLoginClicked}>
+            {intl.formatMessage(messages.signIn)}
+          </Button>
+        </Form>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+      </Container>
+    </Wrapper>
+  );
+
+  const userVerificationStage = (
+    <Wrapper>
+      <Container>
+        <Title>
+          <FormattedMessage
+            id='login.user-verification.header'
+            defaultMessage='Hallaien!'
+          />
+        </Title>
+        <Info>
+          <FormattedMessage
+            id='login.user-verification.info'
+            defaultMessage='For at vi skal kunne logge deg inn, er vi nødt til å få verifisert at du er tilknyttet Institutt for informatikk. Vennligst skriv inn ditt Feide-passord og logg inn for å verifisere deg.'
+          />
+        </Info>
+        <Form>
+          <Input
+            password
+            value={feidePassword}
+            placeholder={intl.formatMessage(messages.feidePassword)}
+            onChange={(e) => setFeidePassword(e.target.value)}
+          />
+          <Button
+            dark spanned
+            onClick={verifyUserLoginClicked}>
             {intl.formatMessage(messages.signIn)}
           </Button>
         </Form>
@@ -225,13 +304,21 @@ const Login = injectIntl<LoginProps>(({intl}) => {
   switch (stage) {
     case "login":
       return loginStage;
-    case "first-login-setup":
+    case "first-time-setup":
       return passwordSetupStage;
     case "user-verification":
-      return loginStage;
+      return userVerificationStage;
     default:
       return loginStage;
   }
 });
 
-export default withRouter(Login);
+const mapStateToProps = (state: RootState) => ({
+  isAuthenticated: state.api.isAuthenticated
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  userAuthenticated: (user: User) => dispatch(userAuthenticated(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -19,7 +19,7 @@ export class RestrictedRoute extends Route<RestrictedRouteProps> {
         />
       );
     } else {
-      return <React.Component {...this.props} />;
+      return <Route {...this.props} />;
     }
   }
 }

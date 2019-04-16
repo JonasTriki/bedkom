@@ -6,8 +6,9 @@ const init: ApiState = {
 };
 
 export function apiReducer(state: ApiState = init, action: ApiActions): ApiState {
+  console.log(state, action);
   switch (action.type) {
-    case Constants.FETCHED_USER:
+    case Constants.USER_AUTHENTICATED:
       return {...state, ...action.payload};
     default:
       return state;

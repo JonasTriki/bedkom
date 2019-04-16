@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Redirect, Route, Switch} from "react-router";
+import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
 import RestrictedRoute, {RestrictedRouteProps} from "./components/RestrictedRoute";
 
 // Pages
@@ -29,14 +29,29 @@ export function routes(isAuthenticated: boolean) {
         exact path='/profile'
         component={Profile}
       />
-      <Route path='/login' render={(props) => (
+      <Route path='/login' render={(props: RouteComponentProps) => {
+        const {from} = props.location.state || {from: {pathname: '/'}};
+        return (
+          isAuthenticated ? (
+            <Redirect to={from}/>
+          ) : (
+            <Login {...props} />
+          )
+        );
+      }}/>
+      <Route component={NoMatch}/>
+    </Switch>
+  )
+}
+
+/*
+
+<Route path='/login' render={(props) => (
         isAuthenticated ? (
           <Redirect to='/'/>
         ) : (
           <Login {...props} />
         )
       )}/>
-      <Route component={NoMatch}/>
-    </Switch>
-  )
-}
+
+ */

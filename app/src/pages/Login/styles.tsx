@@ -21,7 +21,7 @@ export const Title = styled.div`
 `;
 
 export const Info = styled.div`
-  width: 30rem;
+  width: 35rem;
   font-size: 1.25rem;
   margin-bottom: 2rem;
   text-align: center;

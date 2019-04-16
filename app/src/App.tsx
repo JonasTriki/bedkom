@@ -7,17 +7,22 @@ import {connect} from "react-redux";
 import {routes} from "./routes";
 import AppWrapper from "./components/AppWrapper";
 
-// TODO: Map all redux store to props, or only parts of it?
-const mapStateToProps = (state: RootState) => state;
+interface AppState {
+  isAuthenticated: boolean;
+}
 
-class App extends Component<RootState> {
+class App extends Component<AppState> {
 
   render() {
-    const page = routes(this.props.api.isAuthenticated);
+    const page = routes(this.props.isAuthenticated);
     return (
       <AppWrapper page={page}/>
     )
   }
 }
+
+const mapStateToProps = (state: RootState) => ({
+  isAuthenticated: state.api.isAuthenticated,
+});
 
 export default withSplashScreen(connect(mapStateToProps)(App));

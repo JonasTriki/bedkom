@@ -8,8 +8,7 @@ export interface ApiState {
 }
 
 export enum Constants {
-  FETCH_USER = 'FETCH_USER',
-  FETCHED_USER = 'FETCHED_USER',
+  USER_AUTHENTICATED = 'USER_AUTHENTICATED',
 }
 
 export type ApiActions = ActionType<typeof actions>;

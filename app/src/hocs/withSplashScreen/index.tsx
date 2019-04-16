@@ -1,7 +1,14 @@
-import React, {Component, ComponentClass} from 'react';
+import React, {Component, ComponentType} from 'react';
+import {FormattedMessage} from 'react-intl';
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
+
 import {version} from '../../../package.json';
 import {FooterDetails, LoadingWrapper, Logo} from "./styles";
-import {FormattedMessage} from 'react-intl';
+import {usersGet} from "../../api/endpoints";
+import {RootState} from "../../store";
+import {User} from "../../models/User";
+import {userAuthenticated} from "../../api/actions";
 
 function LoadingMessage() {
   return (
@@ -22,36 +29,49 @@ function LoadingMessage() {
   );
 }
 
-function withSplashScreen(WrappedComponent: ComponentClass<any>) {
-  return class extends Component {
-    state = {loading: true};
+interface SplashScreenState {
+  isAuthenticated: boolean;
+  userAuthenticated: (user: User) => any;
+}
 
-    async componentDidMount() {
-      try {
+const mapStateToProps = (state: RootState) => ({
+  isAuthenticated: state.api.isAuthenticated,
+});
 
-        // TODO: Implement loading of resources.
-        setTimeout(() => {
-          this.setState({
-            loading: false,
-          });
-        }, 1000);
-      } catch (err) {
-        console.log(err);
-        this.setState({
-          loading: false,
-        });
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  userAuthenticated: (user: User) => dispatch(userAuthenticated(user)),
+});
+
+function withSplashScreen(WrappedComponent: ComponentType<any>) {
+  return connect(mapStateToProps, mapDispatchToProps)(
+    class extends Component<SplashScreenState> {
+      state = {loading: true};
+
+      async componentDidMount() {
+        const {userAuthenticated} = this.props;
+        const response = await usersGet();
+        if (!response || response.status !== 200) {
+
+          // Error occured while fetching user info.
+          this.setState({loading: false});
+          return;
+        }
+
+        // Dispatch the user info
+        userAuthenticated(response.data.data);
+      }
+
+      render() {
+        const {isAuthenticated} = this.props;
+
+        // While checking user session, show "loading" message
+        if (this.state.loading && !isAuthenticated) return LoadingMessage();
+
+        // Otherwise, show the desired route
+        return <WrappedComponent {...this.props} />;
       }
     }
-
-    render() {
-
-      // While checking user session, show "loading" message
-      if (this.state.loading) return LoadingMessage();
-
-      // otherwise, show the desired route
-      return <WrappedComponent {...this.props} />;
-    }
-  };
+  );
 }
 
 export default withSplashScreen;

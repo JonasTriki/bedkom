@@ -3,19 +3,15 @@ import config from "../config";
 import {ApiResponse} from '../models/ApiResponse';
 
 // Helper method to create endpoints to API.
-async function endpoint<T>(method: string, endpoint: string, payload: any, authToken?: string) {
+async function endpoint<T>(method: string, endpoint: string, payload: any = {}) {
   let response: AxiosResponse<T> | undefined;
   try {
     const axiosParams: AxiosRequestConfig = {
       method,
       url: config.apiBaseUrl + endpoint,
       data: payload,
+      withCredentials: true
     };
-
-    // Apply authentication JWT if we are accessing restricted endpoints.
-    if (authToken) {
-      axiosParams.headers = {"Authorization": "JWT " + authToken};
-    }
 
     response = await axios.request<T>(axiosParams);
   } catch (error) {
@@ -41,18 +37,25 @@ export function usersLogin(username: string, password: string, org: string) {
   );
 }
 
-export function usersPasswordSetup(username: string, password: string, org: string, verificationToken: string, email: string) {
+export function usersSetup(username: string, password: string, verificationToken: string, email: string) {
   return endpoint<ApiResponse>(
     "POST",
-    "/users/login",
-    {username, password, org, verificationToken, email}
+    "/users/setup",
+    {username, password, verificationToken, email}
   );
 }
 
-export function usersVerify(username: string, password: string, org: string) {
+export function usersVerify(username: string, password: string) {
   return endpoint<ApiResponse>(
     "POST",
     "/users/verify",
-    {username, password, org}
+    {username, password}
+  );
+}
+
+export function usersGet() {
+  return endpoint<ApiResponse>(
+    "POST",
+    "/users/get"
   );
 }
