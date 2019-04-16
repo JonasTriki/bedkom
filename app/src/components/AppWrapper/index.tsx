@@ -99,7 +99,7 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page}) => {
       <Footer>
         <FormattedMessage
           id='footer.text'
-          defaultMessage='Bedriftskomitéen ved {echo}Designet og utviklet av {author}'
+          defaultMessage='Bedriftskomitéen ved {echo}Designet og utviklet med ❤️av {author}'
           values={{
             echo: (
               <>

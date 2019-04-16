@@ -54,8 +54,5 @@ export function usersVerify(username: string, password: string) {
 }
 
 export function usersGet() {
-  return endpoint<ApiResponse>(
-    "POST",
-    "/users/get"
-  );
+  return endpoint<ApiResponse>("GET", "/users/get");
 }

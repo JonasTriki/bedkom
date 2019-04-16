@@ -10,12 +10,12 @@ import {ApiResponse} from "../../models/ApiResponse";
 import {messages} from './messages';
 import {RootState} from "../../store";
 import {Dispatch} from "redux";
-import {User} from "../../models/User";
 import {userAuthenticated} from "../../api/actions";
+import {SessionData} from "../../models/SessionData";
 
 interface LoginProps extends InjectedIntlProps {
   isAuthenticated: boolean;
-  userAuthenticated: (user: User) => any;
+  userAuthenticated: (data: SessionData) => any;
 }
 
 type OrgType = { label: string; value: string };
@@ -318,7 +318,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  userAuthenticated: (user: User) => dispatch(userAuthenticated(user)),
+  userAuthenticated: (data: SessionData) => dispatch(userAuthenticated(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

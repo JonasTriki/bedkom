@@ -7,8 +7,8 @@ import {version} from '../../../package.json';
 import {FooterDetails, LoadingWrapper, Logo} from "./styles";
 import {usersGet} from "../../api/endpoints";
 import {RootState} from "../../store";
-import {User} from "../../models/User";
 import {userAuthenticated} from "../../api/actions";
+import {SessionData} from "../../models/SessionData";
 
 function LoadingMessage() {
   return (
@@ -31,7 +31,7 @@ function LoadingMessage() {
 
 interface SplashScreenState {
   isAuthenticated: boolean;
-  userAuthenticated: (user: User) => any;
+  userAuthenticated: (data: SessionData) => any;
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -39,7 +39,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  userAuthenticated: (user: User) => dispatch(userAuthenticated(user)),
+  userAuthenticated: (data: SessionData) => dispatch(userAuthenticated(data)),
 });
 
 function withSplashScreen(WrappedComponent: ComponentType<any>) {

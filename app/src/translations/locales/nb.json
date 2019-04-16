@@ -2,7 +2,7 @@
   "app.title": "Bedriftskomitéen v/echo",
   "app.version": "Versjon {version}",
   "choose.language": "Velg språk...",
-  "footer.text": "Bedriftskomitéen ved {echo}Designet og utviklet av {author}",
+  "footer.text": "Bedriftskomitéen ved {echo}Designet og utviklet med ❤️av {author}",
   "language.english": "Engelsk",
   "language.norwegian": "Norsk",
   "login.choose.institution": "Velg institusjon...",
