@@ -1,6 +1,6 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import createSagaMiddleware from 'redux-saga'
-import sagas from './sagas';
+import saga from './saga';
 import {ApiState} from "./api/types";
 import {apiReducer} from "./api/reducer";
 
@@ -15,6 +15,6 @@ const store = createStore<RootState, any, any, any>(
   }),
   applyMiddleware(sagaMiddleware)
 );
-sagaMiddleware.run(sagas);
+sagaMiddleware.run(saga);
 
 export default store;

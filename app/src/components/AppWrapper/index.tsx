@@ -1,13 +1,19 @@
 import * as React from 'react';
-import logo from '../../images/logo.svg';
-import {Button, Buttons, Content, Divider, FloatRight, Footer, Logo, Menu, Wrapper} from "./styles";
+import {connect} from "react-redux";
 import {RouteComponentProps, withRouter} from "react-router";
-import {InjectedIntlProps, injectIntl, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import logo from '../../images/logo.svg';
+import {Button, Buttons, Content, Divider, FloatRight, Footer, Logo, Menu, ProfileButton, Wrapper} from "./styles";
+import {InjectedIntlProps, injectIntl, FormattedMessage} from 'react-intl';
 import {StyledSelect, TransparentStyle} from "../StyledSelect";
 import {messages} from "./messages";
+import {ApiState} from "../../api/types";
+import {RootState} from "../../store";
+import Icon from '@mdi/react';
+import { mdiAccountCircle } from '@mdi/js';
 
 interface AppWrapperProps extends InjectedIntlProps, RouteComponentProps {
   page: JSX.Element,
+  api: ApiState
 }
 
 interface Page {
@@ -16,7 +22,7 @@ interface Page {
   checked?: boolean;
 }
 
-const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page}) => {
+const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
 
   const languageOpts = [
     {value: 'nb', label: intl.formatMessage(messages.norwegian)},
@@ -32,6 +38,8 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page}) => {
     text: intl.formatMessage(messages.signIn),
     path: '/login'
   };
+
+  const profilePath = '/profile';
 
   const pages: Page[] = [
     {
@@ -89,13 +97,26 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page}) => {
             styles={TransparentStyle("8rem")}
           />
           <Divider/>
-          <Button
-            active={signInPage.checked}
-            onClick={() => btnClick(signInPage.path)}>{signInPage.text}
-          </Button>
+          {
+            api.isAuthenticated ? (
+              <ProfileButton
+                active={curPath.startsWith(profilePath)}
+                onClick={() => btnClick(profilePath)}>
+                <Icon className='thumb' path={mdiAccountCircle} color='white' size='2rem' />
+                {api.user.firstName}
+              </ProfileButton>
+            ) : (
+              <Button
+                active={signInPage.checked}
+                onClick={() => btnClick(signInPage.path)}>{signInPage.text}
+              </Button>
+            )
+          }
         </FloatRight>
       </Menu>
-      <Content>{page}</Content>
+      <Content>
+        {page}
+      </Content>
       <Footer>
         <FormattedMessage
           id='footer.text'
@@ -103,11 +124,15 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page}) => {
           values={{
             echo: (
               <>
-                <a className='sneaky' href='https://echo.uib.no'>echo – Fagutvalget for informatikk, UiB</a>
+                <a className='sneaky' href='https://echo.uib.no' target='_blank' rel='noopener noreferrer'>
+                  echo – Fagutvalget for informatikk, UiB
+                </a>
                 <br/>
               </>
             ),
-            author: <a className='sneaky' href='https://triki.no/'>Jonas Triki</a>,
+            author: <a className='sneaky' href='https://triki.no/' target='_blank' rel='noopener noreferrer'>
+              Jonas Triki
+            </a>,
           }}
         />
       </Footer>
@@ -115,4 +140,8 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page}) => {
   )
 };
 
-export default injectIntl(withRouter(AppWrapper));
+const mapStateToProps = (state: RootState) => ({
+  api: state.api
+});
+
+export default connect(mapStateToProps)(injectIntl(withRouter(AppWrapper)));

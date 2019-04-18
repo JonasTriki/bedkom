@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ValueType} from "react-select/lib/types";
 import {connect} from "react-redux";
 import {FormattedMessage, FormattedHTMLMessage, injectIntl, InjectedIntlProps} from 'react-intl';
-import {Input, Wrapper, Container, Title, Form, Link, Instructions, ErrorMessage, Info} from "./styles";
+import {Wrapper, Container, Title, Form, Instructions, Info} from "./styles";
 import {Button} from '../../styles/Button';
 import {StyledSelect} from '../../components/StyledSelect';
 import * as api from "../../api/endpoints";
@@ -11,11 +11,14 @@ import {messages} from './messages';
 import {RootState} from "../../store";
 import {Dispatch} from "redux";
 import {userAuthenticated} from "../../api/actions";
-import {SessionData} from "../../models/SessionData";
+import {Input} from "../../styles/Input";
+import {Link} from "../../styles/Link";
+import {User} from "../../models/User";
+import {ErrorMessage} from "../../styles/ErrorMessage";
 
 interface LoginProps extends InjectedIntlProps {
   isAuthenticated: boolean;
-  userAuthenticated: (data: SessionData) => any;
+  userAuthenticated: (user: User) => any;
 }
 
 type OrgType = { label: string; value: string };
@@ -93,7 +96,7 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
       case 200:
 
         // Signed in ok! Data contains user info.
-        return userAuthenticated(respData.data);
+        return userAuthenticated(respData.data.user);
       case 202:
 
         // Action required qqby the user
@@ -133,7 +136,7 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
     }
 
     // User set up correctly. Data contains user info.
-    userAuthenticated(response.data.data);
+    userAuthenticated(response.data.data.user);
   };
 
   const verifyUserLoginClicked = async (e: React.MouseEvent<HTMLElement>) => {
@@ -154,7 +157,7 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
       case 200:
 
         // User verification ok! Data contains user info.
-        return userAuthenticated(response.data.data);
+        return userAuthenticated(response.data.data.user);
       case 401:
 
         // Invalid Feide-password combination
@@ -203,7 +206,6 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
             onChange={(org: ValueType<OrgType>) => setOrg(org as OrgType)}
           />
           <Button
-            dark spanned
             onClick={loginClicked}>
             {intl.formatMessage(messages.signIn)}
           </Button>
@@ -258,7 +260,6 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
             onChange={(e) => setNewPassword(e.target.value)}
           />
           <Button
-            dark spanned
             onClick={setupLoginClicked}>
             {intl.formatMessage(messages.signIn)}
           </Button>
@@ -291,7 +292,6 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
             onChange={(e) => setFeidePassword(e.target.value)}
           />
           <Button
-            dark spanned
             onClick={verifyUserLoginClicked}>
             {intl.formatMessage(messages.signIn)}
           </Button>
@@ -318,7 +318,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  userAuthenticated: (data: SessionData) => dispatch(userAuthenticated(data)),
+  userAuthenticated: (user: User) => dispatch(userAuthenticated(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

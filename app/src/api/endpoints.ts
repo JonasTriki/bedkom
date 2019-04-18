@@ -53,6 +53,40 @@ export function usersVerify(username: string, password: string) {
   );
 }
 
-export function usersGet() {
-  return endpoint<ApiResponse>("GET", "/users/get");
+export function usersEdit(firstName: string, lastName: string, email: string) {
+  return endpoint<ApiResponse>(
+    "PUT",
+    "/users/edit",
+    {firstName, lastName, email}
+  );
+}
+
+export function usersChangePassword(currentPassword: string, newPassword: string) {
+  return endpoint<ApiResponse>(
+    "PUT",
+    "/users/change-password",
+    {currentPassword, newPassword}
+  );
+}
+
+export function usersResetPassword(username?: string) {
+  if (username) {
+    return endpoint<ApiResponse>("POST", "/users/reset-password", {username});
+  } else {
+    return endpoint<ApiResponse>("POST", "/users/reset-password");
+
+  }
+}
+
+export function usersLogout() {
+  return endpoint<ApiResponse>("POST", "/users/logout");
+}
+
+export function usersBedkom() {
+  return endpoint<ApiResponse>("GET", "/users/bedkom");
+}
+
+/* -- sessions -- */
+export function sessionsGet() {
+  return endpoint<ApiResponse>("GET", "/sessions/get");
 }

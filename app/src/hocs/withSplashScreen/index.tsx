@@ -5,9 +5,9 @@ import {Dispatch} from "redux";
 
 import {version} from '../../../package.json';
 import {FooterDetails, LoadingWrapper, Logo} from "./styles";
-import {usersGet} from "../../api/endpoints";
+import {sessionsGet} from "../../api/endpoints";
 import {RootState} from "../../store";
-import {userAuthenticated} from "../../api/actions";
+import {gotSession} from "../../api/actions";
 import {SessionData} from "../../models/SessionData";
 
 function LoadingMessage() {
@@ -31,7 +31,7 @@ function LoadingMessage() {
 
 interface SplashScreenState {
   isAuthenticated: boolean;
-  userAuthenticated: (data: SessionData) => any;
+  gotSession: (data: SessionData) => any;
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -39,7 +39,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  userAuthenticated: (data: SessionData) => dispatch(userAuthenticated(data)),
+  gotSession: (data: SessionData) => dispatch(gotSession(data)),
 });
 
 function withSplashScreen(WrappedComponent: ComponentType<any>) {
@@ -48,17 +48,18 @@ function withSplashScreen(WrappedComponent: ComponentType<any>) {
       state = {loading: true};
 
       async componentDidMount() {
-        const {userAuthenticated} = this.props;
-        const response = await usersGet();
+        const {gotSession} = this.props;
+        const response = await sessionsGet();
         if (!response || response.status !== 200) {
 
-          // Error occured while fetching user info.
+          // Error occured while fetching session info.
           this.setState({loading: false});
           return;
         }
 
-        // Dispatch the user info
-        userAuthenticated(response.data.data);
+        // Dispatch the session info
+        gotSession(response.data.data);
+        this.setState({loading: false});
       }
 
       render() {

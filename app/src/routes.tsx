@@ -7,7 +7,7 @@ import {Home} from "./pages/Home";
 import {Presentations} from "./pages/Presentations";
 import {Companies} from "./pages/Companies";
 import About from "./pages/About";
-import {Profile} from "./pages/Profile";
+import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import {NoMatch} from "./pages/NoMatch";
 

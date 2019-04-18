@@ -67,6 +67,15 @@ export const Divider = styled.div`
   margin: 0 1rem;
 `;
 
+export const ProfileButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  
+  .thumb {
+    margin-right: 1rem;
+  }
+`;
+
 export const Content = styled.div`
   flex: 1;
   min-height: calc(100% - 5rem);

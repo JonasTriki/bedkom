@@ -24,4 +24,8 @@ export const GlobalStyle = createGlobalStyle`
   a {
     color: ${yellow};
   }
+  
+  span.emphasis {
+    font-weight: 600;
+  }
 `;

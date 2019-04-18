@@ -15,6 +15,11 @@ import locale_en from 'react-intl/locale-data/en';
 import messages_nb from "./translations/locales/nb.json";
 import messages_en from "./translations/locales/en.json";
 
+// Material UI
+import {SnackbarProvider} from "notistack";
+import {MuiThemeProvider} from "@material-ui/core";
+import theme from "./theme";
+
 interface Messages {
   [key: string]: object;
 }
@@ -38,7 +43,11 @@ const app = (
     <Provider store={store}>
       <BrowserRouter>
         <GlobalStyle/>
-        <App/>
+        <MuiThemeProvider theme={theme}>
+          <SnackbarProvider maxSnack={3}>
+            <App/>
+          </SnackbarProvider>
+        </MuiThemeProvider>
       </BrowserRouter>
     </Provider>
   </IntlProvider>
