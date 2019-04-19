@@ -243,7 +243,7 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
         <Info>
           <FormattedMessage
             id='login.first-time-setup.info'
-            defaultMessage='Før vi kan opprette brukeren din, er du nødt til å se over at e-post adressen nedenfor stemmer, samt opprette nytt innloggings-passord.'
+            defaultMessage='Før vi kan opprette brukeren din, er du nødt til å se over at e-postadressen nedenfor stemmer, samt opprette nytt innloggings-passord.'
           />
         </Info>
         <Form>

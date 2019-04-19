@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import * as React from "react";
-import {darkBlue85, red, yellow} from "../../../colors";
+import {red} from "../../../colors";
+import {RouteComponentProps, withRouter} from "react-router";
+import {RefObject} from "react";
 
 const Arrow = styled.div`
   width: 1.75rem;
@@ -28,11 +30,23 @@ const Text = styled.div`
   font-size: 1.1rem;
 `;
 
-const NextSectionArrow: React.FC = (props) => (
-  <Wrapper>
-    <Text>{props.children}</Text>
-    <Arrow/>
-  </Wrapper>
-);
+interface NextSectionArrowProps extends RouteComponentProps {
+  sectionRef: RefObject<HTMLDivElement>;
+}
 
-export default NextSectionArrow;
+const NextSectionArrow: React.FC<NextSectionArrowProps> = (props) => {
+
+  const goToSection = () => {
+    if (!props.sectionRef.current) return;
+    window.scrollTo({ behavior: 'smooth', top: props.sectionRef.current.offsetTop });
+  };
+
+  return (
+    <Wrapper onClick={goToSection}>
+      <Text>{props.children}</Text>
+      <Arrow/>
+    </Wrapper>
+  );
+};
+
+export default withRouter(NextSectionArrow);

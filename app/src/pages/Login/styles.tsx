@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {redError} from "../../colors";
+import {darkBlue, grayBorder, redError} from "../../colors";
 
 export const Wrapper = styled.div`
   flex: 1;

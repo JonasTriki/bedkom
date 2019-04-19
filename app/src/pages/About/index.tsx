@@ -1,18 +1,33 @@
 import * as React from 'react';
 import {RouteComponentProps, withRouter} from "react-router";
-import {injectIntl, InjectedIntlProps, FormattedMessage, FormattedHTMLMessage} from "react-intl";
+import {injectIntl, InjectedIntlProps, FormattedHTMLMessage, FormattedMessage} from "react-intl";
 import messages from "./messages";
-import {TopInfo, Wrapper, Title, Description, InfoSections, LongDescription, Divider, CenteredTitle} from './styles';
+import {
+  TopInfo,
+  Wrapper,
+  Title,
+  Description,
+  InfoSections,
+  LongDescription,
+  Divider,
+  CenteredTitle,
+  Members,
+  MultiInput, FormWrapper
+} from './styles';
 import InfoSection, {InfoSectionProps} from './components/InfoSection';
 import {mdiAccountGroup, mdiHumanGreeting, mdiPresentation} from "@mdi/js";
 import NextSectionArrow from "./components/NextSectionArrow";
 import Section from './components/Section';
-import {useEffect} from "react";
+import {useEffect, useRef, useState} from "react";
 import {connect} from "react-redux";
 import {getBedkomMembers} from "../../api/actions";
 import {RootState} from "../../store";
 import {BedkomMember} from "../../models/BedkomMember";
 import {Dispatch} from "redux";
+import MemberBlock from "./components/MemberBlock";
+import {Form} from '../../styles/Form';
+import {Input} from "../../styles/Input";
+import {Button} from '../../styles/Button';
 
 interface AboutProps extends RouteComponentProps, InjectedIntlProps {
   bedkomMembers: BedkomMember[];
@@ -25,6 +40,13 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
   useEffect(() => {
     getBedkomMembers();
   }, []);
+
+  const ourMembersRef = useRef<HTMLDivElement>(null);
+  const contactFormRef = useRef<HTMLDivElement>(null);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
   const infoSections: InfoSectionProps[] = [
     {
@@ -44,7 +66,12 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
     },
   ];
 
-  const TopSection = () => (
+  const sendContactForm = () => {
+
+    // TODO: Implement API call
+  };
+
+  const topSection = (
     <Section excludeMenu>
       <TopInfo>
         <Title>
@@ -73,14 +100,14 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
           />
         ))}
       </InfoSections>
-      <NextSectionArrow>
+      <NextSectionArrow sectionRef={ourMembersRef}>
         {intl.formatMessage(messages.ourMembers)}
       </NextSectionArrow>
     </Section>
   );
 
-  const MembersSection = () => (
-    <Section>
+  const membersSection = (
+    <Section ref={ourMembersRef}>
       <LongDescription>
         <FormattedHTMLMessage
           id='about.bedkom-desc'
@@ -98,33 +125,71 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
         {intl.formatMessage(messages.ourMembers)}
       </CenteredTitle>
       <Divider/>
-      {bedkomMembers.length === 0 ? (
-        <div>Laster inn...</div>
-      ) : (
-        bedkomMembers.map((member, i) => (
-          <div key={i}>
-            {member.firstName + " " + member.lastName}
-          </div>
-        ))
-      )}
+      <Members>
+        {bedkomMembers.length === 0 ? (
+          <div>Laster inn...</div>
+        ) : (
+          bedkomMembers.map((member, i) => (
+            <MemberBlock member={member} key={i}>
+              {member.firstName + " " + member.lastName}
+            </MemberBlock>
+          ))
+        )}
+      </Members>
       <Divider/>
-      <NextSectionArrow>
-        {intl.formatMessage(messages.contactSchema)}
+      <NextSectionArrow sectionRef={contactFormRef}>
+        {intl.formatMessage(messages.contactForm)}
       </NextSectionArrow>
     </Section>
   );
 
-  const schemaSection = (
-    <Section>
-
+  const formSection = (
+    <Section ref={contactFormRef}>
+      <LongDescription>
+        <FormattedMessage
+          id='about.contact-form-info'
+          defaultMessage='
+            Dersom du har noen spørsmål angående Bedriftskomitéen, eller hvordan man for eksempel blir medlem, kan du sende en liten melding til oss ved hjelp av skjemaet nedenfor. Vil vi komme tilbake til deg så snart som mulig!
+          '
+        />
+      </LongDescription>
+      <FormWrapper>
+        <CenteredTitle>
+          {intl.formatMessage(messages.contactForm)}
+        </CenteredTitle>
+        <Form fixedWidth='25rem'>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={intl.formatMessage(messages.name)}
+          />
+          <Input
+            email
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={intl.formatMessage(messages.email)}
+          />
+          <MultiInput
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder={intl.formatMessage(messages.message)}
+          />
+          <Button onClick={sendContactForm}>
+            <FormattedMessage
+              id='about.contact-form-send'
+              defaultMessage='Send inn'
+            />
+          </Button>
+        </Form>
+      </FormWrapper>
     </Section>
   );
 
   return (
     <Wrapper>
-      <TopSection/>
-      <MembersSection/>
-      {schemaSection}
+      {topSection}
+      {membersSection}
+      {formSection}
     </Wrapper>
   )
 };

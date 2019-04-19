@@ -1,5 +1,5 @@
 import {createGlobalStyle} from 'styled-components';
-import {lightBlueBg, darkBlue, yellow} from './colors';
+import {lightBlueBg, darkBlue, yellow, grayBorder} from './colors';
 
 export const GlobalStyle = createGlobalStyle`
   html, body, #root {

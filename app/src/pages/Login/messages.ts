@@ -43,7 +43,7 @@ export const messages = defineMessages({
   },
   email: {
     id: 'login.email',
-    defaultMessage: 'E-post adresse'
+    defaultMessage: 'E-postadresse'
   },
   signIn: {
     id: 'login.sign-in',

@@ -29,9 +29,21 @@ const messages = defineMessages({
     id: 'about.our-members',
     defaultMessage: 'Våre medlemmer',
   },
-  contactSchema: {
-    id: 'about.contact-schema',
+  contactForm: {
+    id: 'about.contact-form',
     defaultMessage: 'Kontaktskjema',
+  },
+  name: {
+    id: 'about.contact-form.name',
+    defaultMessage: 'Navn',
+  },
+  email: {
+    id: 'about.contact-form.email',
+    defaultMessage: 'E-postadresse',
+  },
+  message: {
+    id: 'about.contact-form.message',
+    defaultMessage: 'Melding',
   },
 });
 

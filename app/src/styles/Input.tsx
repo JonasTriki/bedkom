@@ -2,15 +2,14 @@ import styled from "styled-components";
 import {darkBlue, grayBorder} from "../colors";
 
 interface InputProps {
-  password?: boolean;
   email?: boolean;
+  password?: boolean;
 }
 
 export const Input = styled.input.attrs(({password, email}: InputProps) => ({
 
   // Use password type if specified
   type: password ? "password" : (email ? "email" : "text"),
-
 }))<InputProps>`
   padding: .75rem;
   

@@ -192,7 +192,7 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
             )}
           </tr>
           <tr>
-            <td><FormattedMessage id='profile.email' defaultMessage='E-post adresse'/></td>
+            <td><FormattedMessage id='profile.email' defaultMessage='E-postadresse'/></td>
             {changingProfile ? (
               <td>
                 <Input

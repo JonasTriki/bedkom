@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import topInfoBg from './images/top-info-bg.png';
-import {darkBlue85, grayBorder} from "../../colors";
+import {darkBlue, darkBlue85, grayBorder} from "../../colors";
 
 export const Wrapper = styled.div`
   flex: 1;
@@ -38,9 +38,15 @@ export const InfoSections = styled.div`
 `;
 
 export const LongDescription = styled.div`
-  padding: 0 4rem;
-  font-size: 1.1rem;
+  padding: 3rem 4rem 2rem 4rem;
   margin-bottom: 2rem;
+  font-size: 1.1rem;
+`;
+
+export const FormWrapper = styled.div`
+  display: grid;
+  justify-items: center;
+  grid-row-gap: 1rem;
 `;
 
 export const Divider = styled.div`
@@ -52,4 +58,22 @@ export const Divider = styled.div`
 export const CenteredTitle = styled.div`
   font-size: 1.25rem;
   text-align: center;
+`;
+
+export const Members = styled.div`
+  display: grid;
+  grid-row-gap: .5rem;
+`;
+
+export const MultiInput = styled.textarea`
+  padding: .75rem;
+  max-width: 100%;
+  min-height: 15rem;
+  box-sizing: border-box;
+  
+  font-size: 1.25rem;
+  color: ${darkBlue};
+  
+  border: 1px solid ${grayBorder};
+  border-radius: .25rem;
 `;

@@ -19,7 +19,7 @@ const messages = defineMessages({
   },
   errorEmail: {
     id: 'profile.error.email',
-    defaultMessage: 'Vennligst skriv inn en gyldig e-post adresse',
+    defaultMessage: 'Vennligst skriv inn en gyldig e-postadresse',
   },
   saving: {
     id: 'profile.saving',
