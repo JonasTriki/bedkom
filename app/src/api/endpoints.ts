@@ -90,3 +90,12 @@ export function usersBedkom() {
 export function sessionsGet() {
   return endpoint<ApiResponse>("GET", "/sessions/get");
 }
+
+/* -- about -- */
+export function aboutContact(name: string, email: string, message: string) {
+  return endpoint<ApiResponse>(
+    "POST",
+    "/about/contact",
+    {name, email, message}
+  );
+}

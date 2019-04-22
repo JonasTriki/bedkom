@@ -28,6 +28,10 @@ import MemberBlock from "./components/MemberBlock";
 import {Form} from '../../styles/Form';
 import {Input} from "../../styles/Input";
 import {Button} from '../../styles/Button';
+import * as api from "../../api/endpoints";
+import {useSnackbar} from "notistack";
+import {errorSnack, infoSnack, successSnack} from "../../styles/SnackbarProps";
+import isEmail from "validator/lib/isEmail";
 
 interface AboutProps extends RouteComponentProps, InjectedIntlProps {
   bedkomMembers: BedkomMember[];
@@ -35,6 +39,7 @@ interface AboutProps extends RouteComponentProps, InjectedIntlProps {
 }
 
 const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   // Fetch bedkom-members upon mounting component
   useEffect(() => {
@@ -47,6 +52,15 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [sendingForm, setSendingForm] = useState(false);
+  const resetState = () => {
+
+    // TODO: Kind of lame to be doing this all manually, right?
+    setName('');
+    setEmail('');
+    setMessage('');
+    setSendingForm(false);
+  };
 
   const infoSections: InfoSectionProps[] = [
     {
@@ -66,9 +80,35 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
     },
   ];
 
-  const sendContactForm = () => {
+  const validateContactFormInput = () => {
+    if (name.length === 0) {
+      enqueueSnackbar(intl.formatMessage(messages.errorName), infoSnack);
+      return false;
+    }
+    if (!isEmail(email)) {
+      enqueueSnackbar(intl.formatMessage(messages.errorEmail), infoSnack);
+      return false;
+    }
+    if (message.length === 0) {
+      enqueueSnackbar(intl.formatMessage(messages.errorMessage), infoSnack);
+      return false;
+    }
+    return true;
+  };
 
-    // TODO: Implement API call
+  const sendContactForm = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    if (sendingForm || !validateContactFormInput()) return;
+    setSendingForm(true);
+
+    let response = await api.aboutContact(name, email, message);
+    if (!response || response.status !== 200) {
+      enqueueSnackbar(intl.formatMessage(messages.errorSendingMessage), errorSnack);
+    } else {
+      enqueueSnackbar(intl.formatMessage(messages.messageSent), successSnack);
+    }
+    resetState();
   };
 
   const topSection = (

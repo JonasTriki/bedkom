@@ -45,6 +45,26 @@ const messages = defineMessages({
     id: 'about.contact-form.message',
     defaultMessage: 'Melding',
   },
+  errorName: {
+    id: 'about.contact-form.error.name',
+    defaultMessage: 'Vennligst skriv inn et navn',
+  },
+  errorEmail: {
+    id: 'about.contact-form.error.mail',
+    defaultMessage: 'Vennligst skriv inn en gyldig e-postadresse',
+  },
+  errorMessage: {
+    id: 'about.contact-form.error.message',
+    defaultMessage: 'Vennligst skriv inn en melding',
+  },
+  errorSendingMessage: {
+    id: 'about.contact-form.error-sending-message',
+    defaultMessage: 'Feil ved sending av melding, prøv igjen om litt'
+  },
+  messageSent: {
+    id: 'about.contact-form.error-sending-message',
+    defaultMessage: 'Vi har mottat din melding og vil komme tilbake til deg snarest!'
+  }
 });
 
 export default messages;
