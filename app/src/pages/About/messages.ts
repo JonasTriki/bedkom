@@ -62,7 +62,7 @@ const messages = defineMessages({
     defaultMessage: 'Feil ved sending av melding, prøv igjen om litt'
   },
   messageSent: {
-    id: 'about.contact-form.error-sending-message',
+    id: 'about.contact-form.message-sent',
     defaultMessage: 'Vi har mottat din melding og vil komme tilbake til deg snarest!'
   }
 });

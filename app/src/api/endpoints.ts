@@ -99,3 +99,12 @@ export function aboutContact(name: string, email: string, message: string) {
     {name, email, message}
   );
 }
+
+/* -- companies -- */
+export function companiesContact(name: string, company: string, email: string, message: string) {
+  return endpoint<ApiResponse>(
+    "POST",
+    "/companies/contact",
+    {name, company, email, message}
+  );
+}
