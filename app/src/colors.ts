@@ -1,6 +1,7 @@
 // List of all colours used in the website.
 export const darkBlue = "#001426";
 export const darkBlue85 = "#001426D9";
+export const darkerBlue = "#000c17";
 export const lightYellow = "#FFEDBE";
 export const yellow = "#FFE08D";
 export const red = "#f16357";

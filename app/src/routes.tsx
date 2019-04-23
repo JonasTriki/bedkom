@@ -10,6 +10,7 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import {NoMatch} from "./pages/NoMatch";
+import Admin from "./pages/Admin";
 
 export function routes(isAuthenticated: boolean) {
 
@@ -28,6 +29,11 @@ export function routes(isAuthenticated: boolean) {
         {...protectedRouteProps}
         exact path='/profile'
         component={Profile}
+      />
+      <RestrictedRoute
+        {...protectedRouteProps}
+        path='/admin'
+        component={Admin}
       />
       <Route path='/login' render={(props: RouteComponentProps) => {
         const {from} = props.location.state || {from: {pathname: '/'}};

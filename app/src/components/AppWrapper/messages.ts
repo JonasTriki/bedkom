@@ -17,6 +17,10 @@ export const messages = defineMessages({
     id: 'menu.about',
     defaultMessage: 'Om Bedkom',
   },
+  admin: {
+    id: 'menu.admin',
+    defaultMessage: 'Admin',
+  },
   signIn: {
     id: 'menu.sign-in',
     defaultMessage: 'Logg inn',

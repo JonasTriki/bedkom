@@ -9,7 +9,8 @@ import {messages} from "./messages";
 import {ApiState} from "../../api/types";
 import {RootState} from "../../store";
 import Icon from '@mdi/react';
-import { mdiAccountCircle } from '@mdi/js';
+import {mdiAccountCircle} from '@mdi/js';
+import {isPermitted} from "../../utils/UserRoles";
 
 interface AppWrapperProps extends InjectedIntlProps, RouteComponentProps {
   page: JSX.Element,
@@ -20,9 +21,17 @@ interface Page {
   text: string;
   path: string;
   checked?: boolean;
+  minRole?: string;
 }
 
 const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
+  const isAuthenticated = api.isAuthenticated;
+
+  // Small filter to check if the user has access to the page
+  const hasPageAccess = (page: Page) => {
+    if (!page.minRole) return true;
+    return isAuthenticated && isPermitted(api.user, page.minRole);
+  };
 
   const languageOpts = [
     {value: 'nb', label: intl.formatMessage(messages.norwegian)},
@@ -53,9 +62,14 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
     {
       text: intl.formatMessage(messages.about),
       path: '/about',
+    },
+    {
+      text: intl.formatMessage(messages.admin),
+      path: '/admin',
+      minRole: 'bedkom'
     }
   ];
-  const allPages = [homePage, ...pages];
+  let allPages = [homePage, ...pages].filter(hasPageAccess);
 
   let curPage: Page | undefined;
   const curPath = history.location.pathname;
@@ -70,9 +84,7 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
     curPage.checked = true;
   }
 
-  const btnClick = (path: string) => {
-    history.push(path);
-  };
+  const btnClick = (path: string) => history.push(path);
 
   return (
     <Wrapper>
@@ -102,7 +114,7 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
               <ProfileButton
                 active={curPath.startsWith(profilePath)}
                 onClick={() => btnClick(profilePath)}>
-                <Icon className='thumb' path={mdiAccountCircle} color='white' size='2rem' />
+                <Icon className='thumb' path={mdiAccountCircle} color='white' size='2rem'/>
                 {api.user.firstName}
               </ProfileButton>
             ) : (

@@ -11,7 +11,7 @@ const messages = defineMessages({
   },
   company: {
     id: 'companies.contact-form.company',
-    defaultMessage: 'Firma',
+    defaultMessage: 'Bedrift',
   },
   email: {
     id: 'companies.contact-form.email',
@@ -27,7 +27,7 @@ const messages = defineMessages({
   },
   errorCompany: {
     id: 'companies.contact-form.error.company',
-    defaultMessage: 'Vennligst skriv inn et firma',
+    defaultMessage: 'Vennligst skriv inn din bedrift',
   },
   errorEmail: {
     id: 'companies.contact-form.error.mail',
