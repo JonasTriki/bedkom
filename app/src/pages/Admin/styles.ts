@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {darkBlue, darkerBlue, yellow} from "../../colors";
+import {darkBlue, darkerBlue, grayBorder, yellow} from "../../colors";
 import {ComponentType} from "react";
 
 export const AdminWrapper = styled.div`
@@ -14,9 +14,8 @@ export const AdminPageList = styled.div`
   grid-template: "pagelist";
   display: flex;
   flex-direction: column;
-  background: ${darkBlue};
-  color: white;
-  padding: .5rem;
+  color: ${darkBlue};
+  border-right: 1px solid ${grayBorder};
 `;
 
 export const PageListSeparator = styled.div`
@@ -35,11 +34,11 @@ export interface AdminPageItemProps {
 }
 
 export const AdminPageItem = styled.div<AdminPageItemProps>`
-  padding: .5rem .25rem;
+  padding: .75rem .5rem;
   text-align: center;
   font-size: 1.1rem;
-  color: ${(props: AdminPageItemProps) => props.checked ? yellow : 'white'}
   cursor: pointer;
+  background: ${(props: AdminPageItemProps) => props.checked ? yellow : 'unset'};
   
   // Make the text unselectable
   -webkit-touch-callout: none;

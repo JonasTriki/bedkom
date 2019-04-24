@@ -86,6 +86,10 @@ export function usersBedkom() {
   return endpoint<ApiResponse>("GET", "/users/bedkom");
 }
 
+export function usersList() {
+  return endpoint<ApiResponse>("GET", "/users/list");
+}
+
 /* -- sessions -- */
 export function sessionsGet() {
   return endpoint<ApiResponse>("GET", "/sessions/get");
@@ -107,4 +111,18 @@ export function companiesContact(name: string, company: string, email: string, m
     "/companies/contact",
     {name, company, email, message}
   );
+}
+
+export function companiesList() {
+  return endpoint<ApiResponse>("GET", "/companies/list");
+}
+
+/* -- presentations -- */
+export function presentationsList() {
+  return endpoint<ApiResponse>("GET", "/presentations/list");
+}
+
+/* -- menus -- */
+export function menusList() {
+  return endpoint<ApiResponse>("GET", "/menus/list");
 }

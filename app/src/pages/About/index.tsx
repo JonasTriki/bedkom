@@ -34,7 +34,7 @@ import {errorSnack, infoSnack, successSnack} from "../../styles/SnackbarProps";
 import isEmail from "validator/lib/isEmail";
 
 interface AboutProps extends RouteComponentProps, InjectedIntlProps {
-  bedkomMembers: BedkomMember[];
+  bedkomMembers: BedkomMember[] | null;
   getBedkomMembers: () => void;
 }
 
@@ -166,7 +166,7 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
       </CenteredTitle>
       <Divider/>
       <Members>
-        {bedkomMembers.length === 0 ? (
+        {!bedkomMembers ? (
           <div>Laster inn...</div>
         ) : (
           bedkomMembers.map((member, i) => (
