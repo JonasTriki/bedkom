@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {injectIntl, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {Title, TopInfo, Wrapper, FormWrapper, CenteredTitle, MultiInput} from './styles';
+import {Title, TopInfo, Wrapper, FormWrapper, CenteredTitle} from './styles';
 import {Form} from "../../styles/Form";
 import {Input} from "../../styles/Input";
 import {Button} from "../../styles/Button";
@@ -9,6 +9,7 @@ import isEmail from "validator/lib/isEmail";
 import {useSnackbar} from "notistack";
 import messages from "./messages";
 import * as api from "../../api/endpoints";
+import {MultiInput} from "../../styles/MultiInput";
 
 interface CompaniesProps {
 

@@ -1,6 +1,13 @@
+import {FoodEntry} from "./Menu";
+
 export interface Presentation {
   id: string;
   companyId: string;
+  company?: {
+    name: string;
+    bannerImgUrl: string;
+    website: string;
+  },
   registrations: number;
   capacity: number;
   minStudyYear: number;
@@ -12,5 +19,9 @@ export interface Presentation {
   contractPath?: string;
   contractUrl?: string;
   menuId?: string;
+  menu?: {
+    url: string;
+    foodEntries: FoodEntry[];
+  },
   description: string;
 }

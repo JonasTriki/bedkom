@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {darkBlue, darkBlue85, grayBorder} from "../../colors";
+import {darkBlue85} from "../../colors";
 import topInfoBg from "./images/top-info-bg.png";
 
 export const Wrapper = styled.div`
@@ -35,17 +35,4 @@ export const FormWrapper = styled.div`
 export const CenteredTitle = styled.div`
   font-size: 1.25rem;
   text-align: center;
-`;
-
-export const MultiInput = styled.textarea`
-  padding: .75rem;
-  max-width: 100%;
-  min-height: 15rem;
-  box-sizing: border-box;
-  
-  font-size: 1.25rem;
-  color: ${darkBlue};
-  
-  border: 1px solid ${grayBorder};
-  border-radius: .25rem;
 `;

@@ -1,7 +1,7 @@
 import {darkBlue, redError} from "../colors";
 import styled from "styled-components";
 
-export type ButtonTheme = 'danger' | 'white';
+export type ButtonTheme = 'red' | 'white' | 'normal';
 
 export interface ButtonProps {
   theme?: ButtonTheme;
@@ -21,7 +21,7 @@ export const Button = styled.button<ButtonProps>`
   
   color: ${(props: ButtonProps) => (props.theme !== 'white') ? 'white' : darkBlue};
   background-color: ${(props: ButtonProps) => {
-  if (props.theme === 'danger') {
+  if (props.theme === 'red') {
     return redError
   } else if (props.theme === 'white') {
     return 'white'

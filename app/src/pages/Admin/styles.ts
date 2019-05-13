@@ -53,16 +53,23 @@ export const AdminPage = styled.div`
   grid-template: "page";
   display: grid;
   grid-template-rows: auto 1fr;
+  overflow: scroll;
+`;
+
+export const PageHeader = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
 `;
 
 export const PageTitle = styled.div`
-  text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
-  padding: 1rem;
+  text-align: center;
+  flex: 1;
 `;
 
 export const PageContent = styled.div`
   flex: 1;
-  padding: 0 1rem;
+  padding: 0 2rem;
 `;

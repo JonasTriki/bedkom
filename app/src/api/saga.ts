@@ -1,13 +1,40 @@
 import {takeEvery, put, select} from "redux-saga/effects";
 import {Constants} from "./types";
 import {
-  fetchedBedkomMembers, fetchedCompanies, fetchedMenus,
+  fetchedBedkomMembers, fetchedCompanies, fetchedMenus, fetchedNews,
   fetchedPresentations, fetchedUsers,
-  fetchingBedkomMembersFailed, fetchingCompaniesFailed, fetchingMenusFailed,
-  fetchingPresentationsFailed, fetchingUsersFailed
+  fetchingBedkomMembersFailed, fetchingCompaniesFailed, fetchingMenusFailed, fetchingNewsFailed,
+  fetchingPresentationsFailed, fetchingUsersFailed, getBedkomMembers, getNews, getPresentations
 } from "./actions";
-import {companiesList, menusList, presentationsList, usersBedkom, usersList} from "./endpoints";
+import {companiesList, menusList, newsList, presentationsList, usersBedkom, usersList} from "./endpoints";
 import {RootState} from "../store";
+
+function* fetchPublicData() {
+
+  // News for home page
+  yield put(getNews());
+
+  // Presentations for home/presentations page
+  yield put(getPresentations());
+
+  // Bedkom-members for about page
+  yield put(getBedkomMembers());
+}
+
+function* fetchNews() {
+  try {
+
+    // Fetch news from API
+    const response = yield newsList();
+    if (!response || response.status !== 200) {
+      return put(fetchingNewsFailed());
+    }
+    const news = response.data.data;
+    yield put(fetchedNews(news));
+  } catch (err) {
+    return put(fetchingNewsFailed(err));
+  }
+}
 
 function* fetchBedkomMembers() {
   try {
@@ -105,8 +132,10 @@ function* fetchUsers() {
 }
 
 function* apiSaga() {
-  yield takeEvery(Constants.GET_BEDKOM_MEMBERS, fetchBedkomMembers);
+  yield takeEvery(Constants.GET_PUBLIC_DATA, fetchPublicData);
+  yield takeEvery(Constants.GET_NEWS, fetchNews);
   yield takeEvery(Constants.GET_PRESENTATIONS, fetchPresentations);
+  yield takeEvery(Constants.GET_BEDKOM_MEMBERS, fetchBedkomMembers);
   yield takeEvery(Constants.GET_COMPANIES, fetchCompanies);
   yield takeEvery(Constants.GET_MENUS, fetchMenus);
   yield takeEvery(Constants.GET_USERS, fetchUsers);

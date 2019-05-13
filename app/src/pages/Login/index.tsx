@@ -48,6 +48,7 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
   const [verToken, setVerToken] = useState('');
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [allergies, setAllergies] = useState('');
 
   // User verification password
   const [feidePassword, setFeidePassword] = useState('');
@@ -128,7 +129,7 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
     if (loading) return;
     setLoading(true);
 
-    const response = await api.usersSetup(username, newPassword, verToken, email);
+    const response = await api.usersSetup(username, newPassword, verToken, email, allergies);
     if (!response || response.status !== 200) {
       setError(intl.formatMessage(messages.unexpectedError));
       setLoading(false);
@@ -258,6 +259,11 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
             value={newPassword}
             placeholder={intl.formatMessage(messages.newPassword)}
             onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <Input
+            value={allergies}
+            placeholder={intl.formatMessage(messages.allergies)}
+            onChange={(e) => setAllergies(e.target.value)}
           />
           <Button
             onClick={setupLoginClicked}>

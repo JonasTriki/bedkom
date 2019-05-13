@@ -32,6 +32,7 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [email, setEmail] = useState(user.email);
+  const [allergies, setAllergiers] = useState(user.allergies);
 
   const [changingProfile, setChangingProfile] = useState(false);
   const [changingProfileLoading, setChangingProfileLoading] = useState(false);
@@ -70,7 +71,7 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
 
       setChangingProfileLoading(true);
 
-      const response = await usersEdit(firstName, lastName, email);
+      const response = await usersEdit(firstName, lastName, email, allergies);
       if (!response || response.status !== 200) {
         enqueueSnackbar(intl.formatMessage(messages.profileChangingError), errorSnack);
       } else {
@@ -203,6 +204,24 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
               </td>
             ) : (
               <td>{user.email}</td>
+            )}
+          </tr>
+          <tr>
+            <td><FormattedMessage id='profile.allergies' defaultMessage='Allergier'/></td>
+            {changingProfile ? (
+              <td>
+                <Input
+                  value={allergies}
+                  disabled={changingProfileLoading}
+                  onChange={(e) => setAllergiers(e.target.value)}
+                />
+              </td>
+            ) : (
+              <td>{
+                user.allergies
+                  ? user.allergies
+                  : intl.formatMessage(messages.noAllergies)
+              }</td>
             )}
           </tr>
           <tr className='bottom-divider'>

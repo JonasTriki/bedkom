@@ -136,13 +136,13 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
           values={{
             echo: (
               <>
-                <a className='sneaky' href='https://echo.uib.no' target='_blank' rel='noopener noreferrer'>
+                <a className='yellow sneaky' href='https://echo.uib.no' target='_blank' rel='noopener noreferrer'>
                   echo – Fagutvalget for informatikk, UiB
                 </a>
                 <br/>
               </>
             ),
-            author: <a className='sneaky' href='https://triki.no/' target='_blank' rel='noopener noreferrer'>
+            author: <a className='yellow sneaky' href='https://triki.no/' target='_blank' rel='noopener noreferrer'>
               Jonas Triki
             </a>,
           }}

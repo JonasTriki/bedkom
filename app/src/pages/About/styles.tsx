@@ -64,16 +64,3 @@ export const Members = styled.div`
   display: grid;
   grid-row-gap: .5rem;
 `;
-
-export const MultiInput = styled.textarea`
-  padding: .75rem;
-  max-width: 100%;
-  min-height: 15rem;
-  box-sizing: border-box;
-  
-  font-size: 1.25rem;
-  color: ${darkBlue};
-  
-  border: 1px solid ${grayBorder};
-  border-radius: .25rem;
-`;

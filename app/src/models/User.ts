@@ -1,3 +1,5 @@
+type PresentationId = string;
+
 export interface User {
   id: string;
   firstName: string;
@@ -11,4 +13,6 @@ export interface User {
   role: string;
   imgUrl?: string;
   committeePosition?: string;
+  presentations: PresentationId[];
+  allergies: string;
 }

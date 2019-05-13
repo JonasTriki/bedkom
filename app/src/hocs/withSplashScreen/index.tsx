@@ -7,7 +7,7 @@ import {version} from '../../../package.json';
 import {FooterDetails, LoadingWrapper, Logo} from "./styles";
 import {sessionsGet} from "../../api/endpoints";
 import {RootState} from "../../store";
-import {gotSession} from "../../api/actions";
+import {getPublicData, gotSession} from "../../api/actions";
 import {SessionData} from "../../models/SessionData";
 
 function LoadingMessage() {
@@ -31,7 +31,8 @@ function LoadingMessage() {
 
 interface SplashScreenState {
   isAuthenticated: boolean;
-  gotSession: (data: SessionData) => any;
+  getPublicData: () => void;
+  gotSession: (data: SessionData) => void;
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -39,6 +40,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  getPublicData: () => dispatch(getPublicData()),
   gotSession: (data: SessionData) => dispatch(gotSession(data)),
 });
 
@@ -48,7 +50,7 @@ function withSplashScreen(WrappedComponent: ComponentType<any>) {
       state = {loading: true};
 
       async componentDidMount() {
-        const {gotSession} = this.props;
+        const {gotSession, getPublicData} = this.props;
         const response = await sessionsGet();
         if (!response || response.status !== 200) {
 
@@ -56,6 +58,9 @@ function withSplashScreen(WrappedComponent: ComponentType<any>) {
           this.setState({loading: false});
           return;
         }
+
+        // Also, dispatch an action to fetch all public data.
+        getPublicData();
 
         // Dispatch the session info
         gotSession(response.data.data);

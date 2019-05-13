@@ -19,6 +19,7 @@ import messages_en from "./translations/locales/en.json";
 import {SnackbarProvider} from "notistack";
 import {MuiThemeProvider} from "@material-ui/core";
 import theme from "./theme";
+import {Settings} from 'luxon';
 
 interface Messages {
   [key: string]: object;
@@ -36,6 +37,9 @@ if (!(locale in messages)) {
   locale = 'en';
 }
 const message = messages[locale];
+
+// Luxon datetime module, set default locale
+Settings.defaultLocale = locale;
 
 // Creates a React app with Redux store, React-navigation and global styled-components styles.
 const app = (

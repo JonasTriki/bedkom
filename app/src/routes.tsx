@@ -3,7 +3,7 @@ import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
 import RestrictedRoute, {RestrictedRouteProps} from "./components/RestrictedRoute";
 
 // Pages
-import {Home} from "./pages/Home";
+import Home from "./pages/Home";
 import {Presentations} from "./pages/Presentations";
 import Companies from "./pages/Companies";
 import About from "./pages/About";

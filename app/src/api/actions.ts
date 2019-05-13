@@ -8,6 +8,7 @@ import {BedkomMember} from "../models/BedkomMember";
 import {Presentation} from "../models/Presentation";
 import {Company} from "../models/Company";
 import {Menu} from "../models/Menu";
+import {Article} from "../models/Article";
 
 const cookies = new Cookies();
 
@@ -39,18 +40,22 @@ export function userSignedOut() {
   return action(Constants.USER_SIGNED_OUT, {user: {} as User, isAuthenticated: false});
 }
 
-// GET members
-export function getBedkomMembers() {
-  return action(Constants.GET_BEDKOM_MEMBERS);
+// GET all public data (used in Splash-screen)
+export function getPublicData() {
+  return action(Constants.GET_PUBLIC_DATA);
 }
 
-export function fetchedBedkomMembers(bedkomMembers: BedkomMember[]) {
-  return action(Constants.FETCHED_BEDKOM_MEMBERS, {bedkomMembers});
+// GET news
+export function getNews() {
+  return action(Constants.GET_NEWS);
 }
 
-export function fetchingBedkomMembersFailed(error?: any) {
-  return action(Constants.FETCHING_BEDKOM_MEMBERS_FAILED, {error});
+export function fetchedNews(news: Article[]) {
+  return action(Constants.FETCHED_NEWS, {news});
+}
 
+export function fetchingNewsFailed(error?: any) {
+  return action(Constants.FETCHING_NEWS_FAILED, {error});
 }
 
 // GET presentations
@@ -64,6 +69,20 @@ export function fetchedPresentations(presentations: Presentation[]) {
 
 export function fetchingPresentationsFailed(error?: any) {
   return action(Constants.FETCHING_PRESENTATIONS_FAILED, {error});
+
+}
+
+// GET members
+export function getBedkomMembers() {
+  return action(Constants.GET_BEDKOM_MEMBERS);
+}
+
+export function fetchedBedkomMembers(bedkomMembers: BedkomMember[]) {
+  return action(Constants.FETCHED_BEDKOM_MEMBERS, {bedkomMembers});
+}
+
+export function fetchingBedkomMembersFailed(error?: any) {
+  return action(Constants.FETCHING_BEDKOM_MEMBERS_FAILED, {error});
 
 }
 

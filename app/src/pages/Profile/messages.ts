@@ -68,7 +68,11 @@ const messages = defineMessages({
   accountDeletionYes: {
     id: 'profile.account-deletion-yes',
     defaultMessage: 'Ja, slett min bruker',
-  }
+  },
+  noAllergies: {
+    id: 'profile.no-allergies',
+    defaultMessage: 'Ingen allergier'
+  },
 });
 
 export default messages;

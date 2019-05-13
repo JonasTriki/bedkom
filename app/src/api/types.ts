@@ -5,11 +5,13 @@ import {BedkomMember} from "../models/BedkomMember";
 import {Presentation} from "../models/Presentation";
 import {Company} from "../models/Company";
 import {Menu} from "../models/Menu";
+import {Article} from "../models/Article";
 
 export interface ApiState {
   user: User;
   isAuthenticated: boolean;
   bedkomMembers: BedkomMember[] | null;
+  news: Article[] | null;
   presentations: Presentation[] | null;
   companies: Company[] | null;
   menus: Menu[] | null;
@@ -26,6 +28,12 @@ export enum Constants {
   GET_BEDKOM_MEMBERS = 'GET_BEDKOM_MEMBERS',
   FETCHED_BEDKOM_MEMBERS = 'FETCHED_BEDKOM_MEMBERS',
   FETCHING_BEDKOM_MEMBERS_FAILED = 'FETCHING_BEDKOM_MEMBERS_FAILED',
+
+  GET_PUBLIC_DATA = 'GET_PUBLIC_DATA',
+
+  GET_NEWS = 'GET_NEWS',
+  FETCHED_NEWS = 'FETCHED_NEWS',
+  FETCHING_NEWS_FAILED = 'FETCHING_NEWS_FAILED',
 
   GET_PRESENTATIONS = 'GET_PRESENTATIONS',
   FETCHED_PRESENTATIONS = 'FETCHED_PRESENTATIONS',

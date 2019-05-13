@@ -12,7 +12,7 @@ import {
   Divider,
   CenteredTitle,
   Members,
-  MultiInput, FormWrapper
+  FormWrapper
 } from './styles';
 import InfoSection, {InfoSectionProps} from './components/InfoSection';
 import {mdiAccountGroup, mdiHumanGreeting, mdiPresentation} from "@mdi/js";
@@ -32,6 +32,7 @@ import * as api from "../../api/endpoints";
 import {useSnackbar} from "notistack";
 import {errorSnack, infoSnack, successSnack} from "../../styles/SnackbarProps";
 import isEmail from "validator/lib/isEmail";
+import {MultiInput} from '../../styles/MultiInput';
 
 interface AboutProps extends RouteComponentProps, InjectedIntlProps {
   bedkomMembers: BedkomMember[] | null;
@@ -42,9 +43,9 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   // Fetch bedkom-members upon mounting component
-  useEffect(() => {
-    getBedkomMembers();
-  }, []);
+  //useEffect(() => {
+  //  getBedkomMembers();
+  //}, []);
 
   const ourMembersRef = useRef<HTMLDivElement>(null);
   const contactFormRef = useRef<HTMLDivElement>(null);

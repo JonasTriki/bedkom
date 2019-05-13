@@ -37,6 +37,10 @@ export const messages = defineMessages({
     id: 'login.new-password',
     defaultMessage: 'Nytt passord'
   },
+  allergies: {
+    id: 'login.allergies',
+    defaultMessage: 'Allergier (f.eks gluten)',
+  },
   feidePassword: {
     id: 'login.feide-password',
     defaultMessage: 'Feide-passord'

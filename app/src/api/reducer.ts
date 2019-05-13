@@ -5,6 +5,7 @@ const init: ApiState = {
   user: {} as User,
   bedkomMembers: null,
   isAuthenticated: false,
+  news: null,
   presentations: null,
   companies: null,
   menus: null,
@@ -17,8 +18,9 @@ export function apiReducer(state: ApiState = init, action: ApiActions): ApiState
     case Constants.USER_AUTHENTICATED:
     case Constants.USER_EDITED:
     case Constants.USER_SIGNED_OUT:
-    case Constants.FETCHED_BEDKOM_MEMBERS:
+    case Constants.FETCHED_NEWS:
     case Constants.FETCHED_PRESENTATIONS:
+    case Constants.FETCHED_BEDKOM_MEMBERS:
     case Constants.FETCHED_COMPANIES:
     case Constants.FETCHED_MENUS:
     case Constants.FETCHED_USERS:
