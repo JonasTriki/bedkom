@@ -11,10 +11,15 @@ import {RootState} from "../../store";
 import Icon from '@mdi/react';
 import {mdiAccountCircle} from '@mdi/js';
 import {isPermitted} from "../../utils/UserRoles";
+import {ValueType} from "react-select/lib/types";
+import {Dispatch} from "redux";
+import {SupportedLocales} from "../../index";
+import {setLanguage} from '../../translations/actions';
 
 interface AppWrapperProps extends InjectedIntlProps, RouteComponentProps {
-  page: JSX.Element,
-  api: ApiState
+  page: JSX.Element;
+  api: ApiState;
+  setLanguage: (lang: SupportedLocales) => void;
 }
 
 interface Page {
@@ -24,7 +29,9 @@ interface Page {
   minRole?: string;
 }
 
-const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
+type LangType = { label: string; value: string };
+
+const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api, setLanguage}) => {
   const isAuthenticated = api.isAuthenticated;
 
   // Small filter to check if the user has access to the page
@@ -86,6 +93,12 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
 
   const btnClick = (path: string) => history.push(path);
 
+  const changeLanguage = (langOpt: ValueType<LangType>) => {
+    if (!langOpt) return;
+    const lang = (langOpt as LangType).value;
+    setLanguage(lang as SupportedLocales);
+  };
+  
   return (
     <Wrapper>
       <Menu>
@@ -104,9 +117,10 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
         <FloatRight>
           <StyledSelect
             isSearchable={false}
+            value={languageOpts.find((opt) => opt.value === intl.locale)}
             options={languageOpts}
-            defaultValue={languageOpts[0]}
             styles={TransparentStyle("8rem")}
+            onChange={changeLanguage}
           />
           <Divider/>
           {
@@ -153,7 +167,11 @@ const AppWrapper: React.FC<AppWrapperProps> = ({intl, history, page, api}) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  api: state.api
+  api: state.api,
 });
 
-export default connect(mapStateToProps)(injectIntl(withRouter(AppWrapper)));
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setLanguage: (lang: SupportedLocales) => dispatch(setLanguage(lang))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(withRouter(AppWrapper)));

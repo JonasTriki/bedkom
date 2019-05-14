@@ -146,6 +146,7 @@
   "profile.logout": "Logg ut",
   "profile.logout-error": "Klarte ikke å logge deg ut, prøv igjen om litt",
   "profile.new-password": "Nytt passord",
+  "profile.no-allergies": "Ingen allergier",
   "profile.password": "Passord",
   "profile.reset-password": "Klikk for å få tilbakestillingslenke på e-post",
   "profile.save-change": "Lagre endringer",

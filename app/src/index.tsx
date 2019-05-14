@@ -8,6 +8,7 @@ import store from "./store";
 import {GlobalStyle} from "./styles";
 
 // i18n
+import Cookies from "universal-cookie/es6";
 import {addLocaleData, IntlProvider} from "react-intl";
 import locale_nb from 'react-intl/locale-data/nb';
 import locale_en from 'react-intl/locale-data/en';
@@ -20,6 +21,7 @@ import {SnackbarProvider} from "notistack";
 import {MuiThemeProvider} from "@material-ui/core";
 import theme from "./theme";
 import {Settings} from 'luxon';
+import ReduxIntlProvider from "./components/ReduxIntlProvider";
 
 interface Messages {
   [key: string]: object;
@@ -27,24 +29,29 @@ interface Messages {
 
 addLocaleData([...locale_nb, ...locale_en]);
 
-const messages: Messages = {
+export type SupportedLocales = 'nb' | 'en';
+
+export const messages: Messages = {
   'nb': messages_nb,
   'en': messages_en
 };
 
-let locale = navigator.language.split(/[-_]/)[0];
+const cookies = new Cookies();
+let locale = cookies.get("lang");
 if (!(locale in messages)) {
-  locale = 'en';
+  locale = navigator.language.split(/[-_]/)[0];
+  if (!(locale in messages)) {
+    locale = 'en';
+  }
 }
-const message = messages[locale];
 
 // Luxon datetime module, set default locale
 Settings.defaultLocale = locale;
 
 // Creates a React app with Redux store, React-navigation and global styled-components styles.
 const app = (
-  <IntlProvider defaultLocale='nb' locale={locale} messages={message}>
-    <Provider store={store}>
+  <Provider store={store(locale)}>
+    <ReduxIntlProvider>
       <BrowserRouter>
         <GlobalStyle/>
         <MuiThemeProvider theme={theme}>
@@ -53,8 +60,8 @@ const app = (
           </SnackbarProvider>
         </MuiThemeProvider>
       </BrowserRouter>
-    </Provider>
-  </IntlProvider>
+    </ReduxIntlProvider>
+  </Provider>
 );
 
 render(app, document.getElementById('root'));

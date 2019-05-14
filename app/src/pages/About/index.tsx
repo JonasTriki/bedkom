@@ -42,11 +42,6 @@ interface AboutProps extends RouteComponentProps, InjectedIntlProps {
 const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  // Fetch bedkom-members upon mounting component
-  //useEffect(() => {
-  //  getBedkomMembers();
-  //}, []);
-
   const ourMembersRef = useRef<HTMLDivElement>(null);
   const contactFormRef = useRef<HTMLDivElement>(null);
 

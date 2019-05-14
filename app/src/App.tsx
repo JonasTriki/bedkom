@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import * as React from 'react';
 import withSplashScreen from './hocs/withSplashScreen';
 import {RootState} from "./store";
 import {connect} from "react-redux";
@@ -11,15 +11,12 @@ interface AppState {
   isAuthenticated: boolean;
 }
 
-class App extends Component<AppState> {
-
-  render() {
-    const page = routes(this.props.isAuthenticated);
-    return (
-      <AppWrapper page={page}/>
-    )
-  }
-}
+const App: React.FC<AppState> = ({isAuthenticated}) => {
+  const page = routes(isAuthenticated);
+  return (
+    <AppWrapper page={page}/>
+  )
+};
 
 const mapStateToProps = (state: RootState) => ({
   isAuthenticated: state.api.isAuthenticated,

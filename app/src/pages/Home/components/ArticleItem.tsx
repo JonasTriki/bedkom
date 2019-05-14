@@ -40,7 +40,6 @@ interface ArticleItemProps {
 const ArticleItem: React.FC<ArticleItemProps> = ({article}) => {
   const dt = DateTime.fromISO(article.datePublished);
   const dayMonth = dt.toFormat('dd MMM').toUpperCase();
-  console.log(dt);
   return (
     <Style>
       <DayMonth>{dayMonth}</DayMonth>
