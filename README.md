@@ -1,4 +1,4 @@
-# Bedriftskomitéen (Bedkom) v/echo - Fagutvalget for informatikk, UiB, kort
+# Bedriftskomitéen (Bedkom) v/echo - Fagutvalget for informatikk, UiB
 Dette er ett system for administrering av bedriftspresentasjon ved Institutt for informatikk, UiB. Systemet er utviklet av Jonas Triki i forbindelse med ett studentprosjekt (INF219) våren 2019.
 
 ## Installasjon
