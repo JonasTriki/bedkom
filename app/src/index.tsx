@@ -9,7 +9,7 @@ import {GlobalStyle} from "./styles";
 
 // i18n
 import Cookies from "universal-cookie/es6";
-import {addLocaleData, IntlProvider} from "react-intl";
+import {addLocaleData} from "react-intl";
 import locale_nb from 'react-intl/locale-data/nb';
 import locale_en from 'react-intl/locale-data/en';
 
