@@ -1,4 +1,4 @@
-# Bedriftskomitéen v/echo - Fagutvalget for informatikk, UiB
+# Bedriftskomitéen (Bedkom) v/echo - Fagutvalget for informatikk, UiB, kort
 Dette er ett system for administrering av bedriftspresentasjon ved Institutt for informatikk, UiB. Systemet er utviklet av Jonas Triki i forbindelse med ett studentprosjekt (INF219) våren 2019.
 
 ## Installasjon
@@ -18,3 +18,6 @@ cd app
 npm start
 ```
 Når applikasjonen er oppe og kjører, kan man navigere til http://localhost:3000/. Applikasjonen forutsetter at man kjører API lokalt på samme maskin.
+
+## Rapport
+Vennligst se filen ```Jonas Folkvord Triki - INF219 report.pdf```.
