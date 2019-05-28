@@ -23,14 +23,21 @@ import {User} from "../../models/User";
 import ArticleItem from "./components/ArticleItem";
 import {useState} from "react";
 import PresentationDialog from "./components/PresentationDialog";
+import AlertDialog from "../../components/AlertDialog";
+import {registrationsDeregister} from "../../api/endpoints";
+import {errorSnack, successSnack} from "../../styles/SnackbarProps";
+import {useSnackbar} from "notistack";
+import {getSession} from "../../api/actions";
 
 interface HomeProps extends InjectedIntlProps {
   user: User;
   presentations: Presentation[] | null;
   news: Article[] | null;
+  getSession: () => void;
 }
 
-const Home: React.FC<HomeProps> = ({intl, user, presentations, news}) => {
+const Home: React.FC<HomeProps> = ({intl, user, presentations, news, getSession}) => {
+  const { enqueueSnackbar } = useSnackbar();
 
   const nextPresentaion = () => {
     if (!presentations || presentations.length === 0) return;
@@ -40,12 +47,27 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news}) => {
   const userSignedUpToPres = (pres && user.presentations) ? user.presentations.indexOf(pres.id) > -1 : false;
 
   const [presentationDialogOpen, setPresentationDialogOpen] = useState(false);
+  const [unregisterDialogOpen, setUnregisterDialogOpen] = useState(false);
+  const [deregistering, setDeregistering] = useState(false);
 
-  const register = () => setPresentationDialogOpen(true);
+  const registerDialog = () => setPresentationDialogOpen(true);
 
-  const deregister = () => {
+  const deregisterDialog = () => setUnregisterDialogOpen(true);
+  const deregister = async () => {
+    if (deregistering || !pres) return;
+    setDeregistering(true);
 
-    // TODO: Alert dialog with confirmation, before deregistering.
+    const response = await registrationsDeregister(pres.id);
+    if (!response || response.status !== 200) {
+      enqueueSnackbar(intl.formatMessage(messages.confirmDeregistrationError), errorSnack);
+      return;
+    }
+
+    // Deregistered from company presentation
+    // TODO: Dispatch action to users presentation
+    getSession();
+    setDeregistering(false);
+    enqueueSnackbar(intl.formatMessage(messages.confirmDeregistrationSuccessful), successSnack);
   };
 
   return (
@@ -71,9 +93,9 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news}) => {
             </Description>
             <Button theme={userSignedUpToPres ? 'red' : 'normal'} onClick={() => {
               if (userSignedUpToPres) {
-                deregister();
+                deregisterDialog();
               } else {
-                register();
+                registerDialog();
               }
             }}>
               {
@@ -112,6 +134,18 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news}) => {
         open={presentationDialogOpen} setOpen={setPresentationDialogOpen}
         presentation={pres}
       />
+      <AlertDialog
+        open={unregisterDialogOpen}
+        setOpen={setUnregisterDialogOpen}
+        title={intl.formatMessage(messages.confirmDeregistration)}
+        description={intl.formatMessage(messages.confirmDeregistrationMessage)}
+        yesMessage={
+          deregistering
+            ? intl.formatMessage(globalMessages.loading)
+            : intl.formatMessage(messages.confirmDeregistrationYes)
+        }
+        yesAction={deregister}
+      />
     </Wrapper>
   );
 };
@@ -122,6 +156,8 @@ const mapStateToProps = (state: RootState) => ({
   news: state.api.news,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  getSession: () => dispatch(getSession()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Home));

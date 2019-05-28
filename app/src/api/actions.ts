@@ -12,6 +12,11 @@ import {Article} from "../models/Article";
 
 const cookies = new Cookies();
 
+// GET session data
+export function getSession() {
+  return action(Constants.GET_SESSION);
+}
+
 export function gotSession(data: SessionData) {
 
   // Set CSRF token in cookies and for all future axios requests.
@@ -21,6 +26,11 @@ export function gotSession(data: SessionData) {
   } else {
     return action(Constants.GOT_SESSION, {});
   }
+}
+
+export function fetchingSessionFailed(error?: any) {
+  return action(Constants.FETCHING_SESSION_FAILED, {error});
+
 }
 
 export function userAuthenticated(user: User) {

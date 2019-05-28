@@ -33,6 +33,27 @@ const messages = defineMessages({
     id: 'home.presentation-open',
     defaultMessage: 'Påmeldingen er åpen for alle årstrinn',
   },
+
+  confirmDeregistration: {
+    id: 'home.confirm-deregistration',
+    defaultMessage: 'Bekreft avmelding',
+  },
+  confirmDeregistrationMessage: {
+    id: 'home.confirm-deregistration-message',
+    defaultMessage: 'Er du sikker på at du ønsker å melde deg av bedriftspresentasjonen?',
+  },
+  confirmDeregistrationYes: {
+    id: 'home.confirm-deregistration-yes',
+    defaultMessage: 'Ja, meld meg av presentasjonen',
+  },
+  confirmDeregistrationError: {
+    id: 'home.confirm-deregistration-error',
+    defaultMessage: 'Kunne ikke melde deg av presentasjonen, prøv igjen om litt',
+  },
+  confirmDeregistrationSuccessful: {
+    id: 'home.confirm-deregistration-successful',
+    defaultMessage: 'Du er nå avmeldt bedriftspresentasjonen!',
+  },
 });
 
 export default messages;

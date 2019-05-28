@@ -1,12 +1,25 @@
 import {takeEvery, put, select} from "redux-saga/effects";
 import {Constants} from "./types";
 import {
-  fetchedBedkomMembers, fetchedCompanies, fetchedMenus, fetchedNews,
-  fetchedPresentations, fetchedUsers,
-  fetchingBedkomMembersFailed, fetchingCompaniesFailed, fetchingMenusFailed, fetchingNewsFailed,
-  fetchingPresentationsFailed, fetchingUsersFailed, getBedkomMembers, getNews, getPresentations
+  fetchedBedkomMembers,
+  fetchedCompanies,
+  fetchedMenus,
+  fetchedNews,
+  fetchedPresentations,
+  fetchedUsers,
+  fetchingBedkomMembersFailed,
+  fetchingCompaniesFailed,
+  fetchingMenusFailed,
+  fetchingNewsFailed,
+  fetchingPresentationsFailed,
+  fetchingSessionFailed,
+  fetchingUsersFailed,
+  getBedkomMembers,
+  getNews,
+  getPresentations,
+  gotSession
 } from "./actions";
-import {companiesList, menusList, newsList, presentationsList, usersBedkom, usersList} from "./endpoints";
+import {companiesList, menusList, newsList, presentationsList, sessionsGet, usersBedkom, usersList} from "./endpoints";
 import {RootState} from "../store";
 
 function* fetchPublicData() {
@@ -19,6 +32,21 @@ function* fetchPublicData() {
 
   // Bedkom-members for about page
   yield put(getBedkomMembers());
+}
+
+function* fetchSessionData() {
+  try {
+
+    // Fetch session from API
+    const response = yield sessionsGet();
+    if (!response || response.status !== 200) {
+      return put(fetchingSessionFailed());
+    }
+    const session = response.data.data;
+    yield put(gotSession(session));
+  } catch (err) {
+    return put(fetchingSessionFailed(err));
+  }
 }
 
 function* fetchNews() {
@@ -132,6 +160,7 @@ function* fetchUsers() {
 }
 
 function* apiSaga() {
+  yield takeEvery(Constants.GET_SESSION, fetchSessionData);
   yield takeEvery(Constants.GET_PUBLIC_DATA, fetchPublicData);
   yield takeEvery(Constants.GET_NEWS, fetchNews);
   yield takeEvery(Constants.GET_PRESENTATIONS, fetchPresentations);

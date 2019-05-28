@@ -11,11 +11,15 @@ import {Button} from "../../../../styles/Button";
 import {errorSnack, successSnack} from "../../../../styles/SnackbarProps";
 import {useSnackbar} from "notistack";
 import {registrationsRegister} from "../../../../api/endpoints";
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
+import {getSession} from "../../../../api/actions";
 
 interface PresentationDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   presentation: Presentation | undefined;
+  getSession: () => void;
 }
 
 const PresentationDialog = injectIntl<PresentationDialogProps>(({intl, presentation, ...props}) => {
@@ -44,6 +48,9 @@ const PresentationDialog = injectIntl<PresentationDialogProps>(({intl, presentat
     // Signed up to company presentation successfully.
     enqueueSnackbar(intl.formatMessage(messages.successfullyRegistered, {company: companyName}), successSnack);
     setLoading(false);
+
+    // TODO: Dispatch action to users presentation
+    props.getSession();
     onClose();
   };
 
@@ -78,4 +85,8 @@ const PresentationDialog = injectIntl<PresentationDialogProps>(({intl, presentat
   )
 });
 
-export default PresentationDialog;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  getSession: () => dispatch(getSession()),
+});
+
+export default connect(null, mapDispatchToProps)(PresentationDialog);
