@@ -21,9 +21,9 @@ export const News = styled.div`
 
 export const Articles = styled.div`
   padding: 1rem;
-  
+
   > div {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -36,7 +36,7 @@ export const Title = styled.div`
 export const Banner = styled.div`
   display: flex;
   margin: 2rem 0;
-  
+
   img {
     height: 5rem;
   }

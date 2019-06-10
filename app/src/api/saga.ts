@@ -1,5 +1,5 @@
-import {takeEvery, put, select} from "redux-saga/effects";
-import {Constants} from "./types";
+import { takeEvery, put, select } from "redux-saga/effects";
+import { Constants } from "./types";
 import {
   fetchedBedkomMembers,
   fetchedCompanies,
@@ -19,11 +19,18 @@ import {
   getPresentations,
   gotSession
 } from "./actions";
-import {companiesList, menusList, newsList, presentationsList, sessionsGet, usersBedkom, usersList} from "./endpoints";
-import {RootState} from "../store";
+import {
+  companiesList,
+  menusList,
+  newsList,
+  presentationsList,
+  sessionsGet,
+  usersBedkom,
+  usersList
+} from "./endpoints";
+import { RootState } from "../store";
 
 function* fetchPublicData() {
-
   // News for home page
   yield put(getNews());
 
@@ -36,7 +43,6 @@ function* fetchPublicData() {
 
 function* fetchSessionData() {
   try {
-
     // Fetch session from API
     const response = yield sessionsGet();
     if (!response || response.status !== 200) {
@@ -51,7 +57,6 @@ function* fetchSessionData() {
 
 function* fetchNews() {
   try {
-
     // Fetch news from API
     const response = yield newsList();
     if (!response || response.status !== 200) {
@@ -66,7 +71,6 @@ function* fetchNews() {
 
 function* fetchBedkomMembers() {
   try {
-
     // Check if we need to fetch members
     let members = yield select((state: RootState) => state.api.bedkomMembers);
     if (members) return;
@@ -85,9 +89,10 @@ function* fetchBedkomMembers() {
 
 function* fetchPresentations() {
   try {
-
     // Check if we need to fetch presentations
-    let presentations = yield select((state: RootState) => state.api.presentations);
+    let presentations = yield select(
+      (state: RootState) => state.api.presentations
+    );
     if (presentations) return;
 
     // Fetch presentations from API
@@ -104,7 +109,6 @@ function* fetchPresentations() {
 
 function* fetchCompanies() {
   try {
-
     // Check if we need to fetch companies
     let companies = yield select((state: RootState) => state.api.companies);
     if (companies) return;
@@ -123,7 +127,6 @@ function* fetchCompanies() {
 
 function* fetchMenus() {
   try {
-
     // Check if we need to fetch menus
     let menus = yield select((state: RootState) => state.api.menus);
     if (menus) return;
@@ -142,7 +145,6 @@ function* fetchMenus() {
 
 function* fetchUsers() {
   try {
-
     // Check if we need to fetch users
     let users = yield select((state: RootState) => state.api.users);
     if (users) return;

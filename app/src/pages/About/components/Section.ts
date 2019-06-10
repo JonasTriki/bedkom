@@ -5,7 +5,8 @@ interface SectionProps {
 }
 
 const Section = styled.div<SectionProps>`
-  min-height: ${(props: SectionProps) => props.excludeMenu ? 'calc(100vh - 5rem)' : '100vh'};
+  min-height: ${(props: SectionProps) =>
+    props.excludeMenu ? "calc(100vh - 5rem)" : "100vh"};
   display: flex;
   flex-direction: column;
 `;

@@ -1,24 +1,39 @@
-import React, {useState} from 'react';
-import {connect} from "react-redux";
-import {RootState} from "../../store";
-import {User} from "../../models/User";
-import {Column, Container, Divider, Form, InfoTable, Top, Wrapper} from "./styles";
-import {mdiAccountCircle, mdiExitToApp} from "@mdi/js";
-import {Icon} from '@mdi/react';
-import {darkBlue} from "../../colors";
-import {FormattedMessage, InjectedIntlProps, injectIntl} from 'react-intl';
-import {Link} from "../../styles/Link";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { RootState } from "../../store";
+import { User } from "../../models/User";
+import {
+  Column,
+  Container,
+  Divider,
+  Form,
+  InfoTable,
+  Top,
+  Wrapper
+} from "./styles";
+import { mdiAccountCircle, mdiExitToApp } from "@mdi/js";
+import { Icon } from "@mdi/react";
+import { darkBlue } from "../../colors";
+import { FormattedMessage, InjectedIntlProps, injectIntl } from "react-intl";
+import { Link } from "../../styles/Link";
 import messages from "./messages";
-import {Input} from "../../styles/Input";
-import {usersChangePassword, usersEdit, usersLogout} from "../../api/endpoints";
-import {Dispatch} from "redux";
-import {userEdited, userSignedOut} from "../../api/actions";
-import {IconButton} from '../../styles/IconButton';
-import isEmail from 'validator/lib/isEmail';
-import {useSnackbar} from "notistack";
-import {errorSnack, infoSnack, successSnack} from "../../styles/SnackbarProps";
+import { Input } from "../../styles/Input";
+import {
+  usersChangePassword,
+  usersEdit,
+  usersLogout
+} from "../../api/endpoints";
+import { Dispatch } from "redux";
+import { userEdited, userSignedOut } from "../../api/actions";
+import { IconButton } from "../../styles/IconButton";
+import isEmail from "validator/lib/isEmail";
+import { useSnackbar } from "notistack";
+import {
+  errorSnack,
+  infoSnack,
+  successSnack
+} from "../../styles/SnackbarProps";
 import AlertDialog from "../../components/AlertDialog";
-
 
 interface ProfileProps extends InjectedIntlProps {
   user: User;
@@ -26,7 +41,12 @@ interface ProfileProps extends InjectedIntlProps {
   userSignedOut: () => void;
 }
 
-const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}) => {
+const Profile: React.FC<ProfileProps> = ({
+  user,
+  userEdited,
+  userSignedOut,
+  intl
+}) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [firstName, setFirstName] = useState(user.firstName);
@@ -39,14 +59,15 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
 
   const [editingPassword, setEditingPassword] = useState(false);
   const [editingPasswordLoading, setEditingPasswordLoading] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const [deleteOpenDialog, setDeleteOpenDialog] = useState(false);
 
   const getAdmission = (user: User) => {
-    const msg = user.startSemester === 'spring' ? messages.spring : messages.autumn;
-    return intl.formatMessage(msg) + ' ' + user.startYear;
+    const msg =
+      user.startSemester === "spring" ? messages.spring : messages.autumn;
+    return intl.formatMessage(msg) + " " + user.startYear;
   };
 
   const validateChangeProfileInput = () => {
@@ -73,9 +94,11 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
 
       const response = await usersEdit(firstName, lastName, email, allergies);
       if (!response || response.status !== 200) {
-        enqueueSnackbar(intl.formatMessage(messages.profileChangingError), errorSnack);
+        enqueueSnackbar(
+          intl.formatMessage(messages.profileChangingError),
+          errorSnack
+        );
       } else {
-
         // Dispatch changes to redux store
         userEdited(response.data.data.user);
         setChangingProfile(false);
@@ -90,7 +113,10 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
 
   const validateChangePasswordInput = () => {
     if (currentPassword.length <= 1) {
-      enqueueSnackbar(intl.formatMessage(messages.errorCurrentPassword), infoSnack);
+      enqueueSnackbar(
+        intl.formatMessage(messages.errorCurrentPassword),
+        infoSnack
+      );
       return false;
     }
     if (newPassword.length <= 1) {
@@ -108,19 +134,28 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
 
       const response = await usersChangePassword(currentPassword, newPassword);
       if (!response) {
-        enqueueSnackbar(intl.formatMessage(messages.changingPasswordError), errorSnack);
+        enqueueSnackbar(
+          intl.formatMessage(messages.changingPasswordError),
+          errorSnack
+        );
       } else {
         if (response.status !== 200) {
           if (response.status === 401) {
-            enqueueSnackbar(intl.formatMessage(messages.changingPasswordNoMatch), errorSnack);
+            enqueueSnackbar(
+              intl.formatMessage(messages.changingPasswordNoMatch),
+              errorSnack
+            );
           } else {
-            enqueueSnackbar(intl.formatMessage(messages.changingPasswordError), errorSnack);
+            enqueueSnackbar(
+              intl.formatMessage(messages.changingPasswordError),
+              errorSnack
+            );
           }
         }
       }
 
-      setCurrentPassword('');
-      setNewPassword('');
+      setCurrentPassword("");
+      setNewPassword("");
       setEditingPasswordLoading(false);
       setEditingPassword(false);
     } else {
@@ -129,18 +164,19 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
   };
 
   const resetPasswordUsingMail = async () => {
-
     // TODO: Implement mail-endpoint first.
     setTimeout(() => {}, 1000);
-    enqueueSnackbar('Tilbakemeldingslenke sendt!', successSnack);
+    enqueueSnackbar("Tilbakemeldingslenke sendt!", successSnack);
   };
 
   const logout = async () => {
-
     // Log out user
     const response = await usersLogout();
     if (!response || response.status !== 200) {
-      enqueueSnackbar(intl.formatMessage(messages.profileLogoutError), errorSnack);
+      enqueueSnackbar(
+        intl.formatMessage(messages.profileLogoutError),
+        errorSnack
+      );
       return;
     }
 
@@ -148,134 +184,177 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
     userSignedOut();
   };
 
-  const deleteMyAccount = async ()  => {
-
+  const deleteMyAccount = async () => {
     // TODO: Implement delete my account
-
   };
 
   return (
     <Wrapper>
       <Container>
         <Top>
-          <Icon className='thumb' path={mdiAccountCircle} color={darkBlue} size='5rem'/>
-          {user.firstName + ' ' + user.lastName}
+          <Icon
+            className="thumb"
+            path={mdiAccountCircle}
+            color={darkBlue}
+            size="5rem"
+          />
+          {user.firstName + " " + user.lastName}
         </Top>
-        <Divider/>
+        <Divider />
         <InfoTable>
           <tbody>
-          <tr>
-            <td><FormattedMessage id='profile.firstname' defaultMessage='Fornavn'/></td>
-            {changingProfile ? (
+            <tr>
               <td>
-                <Input
-                  value={firstName}
-                  disabled={changingProfileLoading}
-                  onChange={(e) => setFirstName(e.target.value)}
+                <FormattedMessage
+                  id="profile.firstname"
+                  defaultMessage="Fornavn"
                 />
               </td>
-            ) : (
-              <td>{user.firstName}</td>
-            )}
-          </tr>
-          <tr>
-            <td><FormattedMessage id='profile.lastname' defaultMessage='Etternavn'/></td>
-            {changingProfile ? (
+              {changingProfile ? (
+                <td>
+                  <Input
+                    value={firstName}
+                    disabled={changingProfileLoading}
+                    onChange={e => setFirstName(e.target.value)}
+                  />
+                </td>
+              ) : (
+                <td>{user.firstName}</td>
+              )}
+            </tr>
+            <tr>
               <td>
-                <Input
-                  value={lastName}
-                  disabled={changingProfileLoading}
-                  onChange={(e) => setLastName(e.target.value)}
+                <FormattedMessage
+                  id="profile.lastname"
+                  defaultMessage="Etternavn"
                 />
               </td>
-            ) : (
-              <td>{user.lastName}</td>
-            )}
-          </tr>
-          <tr>
-            <td><FormattedMessage id='profile.email' defaultMessage='E-postadresse'/></td>
-            {changingProfile ? (
+              {changingProfile ? (
+                <td>
+                  <Input
+                    value={lastName}
+                    disabled={changingProfileLoading}
+                    onChange={e => setLastName(e.target.value)}
+                  />
+                </td>
+              ) : (
+                <td>{user.lastName}</td>
+              )}
+            </tr>
+            <tr>
               <td>
-                <Input
-                  value={email}
-                  disabled={changingProfileLoading}
-                  onChange={(e) => setEmail(e.target.value)}
+                <FormattedMessage
+                  id="profile.email"
+                  defaultMessage="E-postadresse"
                 />
               </td>
-            ) : (
-              <td>{user.email}</td>
-            )}
-          </tr>
-          <tr>
-            <td><FormattedMessage id='profile.allergies' defaultMessage='Allergier'/></td>
-            {changingProfile ? (
+              {changingProfile ? (
+                <td>
+                  <Input
+                    value={email}
+                    disabled={changingProfileLoading}
+                    onChange={e => setEmail(e.target.value)}
+                  />
+                </td>
+              ) : (
+                <td>{user.email}</td>
+              )}
+            </tr>
+            <tr>
               <td>
-                <Input
-                  value={allergies}
-                  disabled={changingProfileLoading}
-                  onChange={(e) => setAllergiers(e.target.value)}
+                <FormattedMessage
+                  id="profile.allergies"
+                  defaultMessage="Allergier"
                 />
               </td>
-            ) : (
-              <td>{
-                user.allergies
-                  ? user.allergies
-                  : intl.formatMessage(messages.noAllergies)
-              }</td>
-            )}
-          </tr>
-          <tr className='bottom-divider'>
-            <td/>
-            <td>
-              <Link onClick={changeProfile}>
-                {changingProfile ? (
-                  changingProfileLoading ? (
-                    intl.formatMessage(messages.saving)
+              {changingProfile ? (
+                <td>
+                  <Input
+                    value={allergies}
+                    disabled={changingProfileLoading}
+                    onChange={e => setAllergiers(e.target.value)}
+                  />
+                </td>
+              ) : (
+                <td>
+                  {user.allergies
+                    ? user.allergies
+                    : intl.formatMessage(messages.noAllergies)}
+                </td>
+              )}
+            </tr>
+            <tr className="bottom-divider">
+              <td />
+              <td>
+                <Link onClick={changeProfile}>
+                  {changingProfile ? (
+                    changingProfileLoading ? (
+                      intl.formatMessage(messages.saving)
+                    ) : (
+                      <FormattedMessage
+                        id="profile.save-change"
+                        defaultMessage="Lagre endringer"
+                      />
+                    )
                   ) : (
-                    <FormattedMessage id='profile.save-change' defaultMessage='Lagre endringer'/>
-                  )
-                ) : (
-                  <FormattedMessage id='profile.change' defaultMessage='Endre profil'/>
-                )}
-              </Link>
-            </td>
-          </tr>
-          <tr className='top-pad'>
-            <td><FormattedMessage id='profile.studyprogram' defaultMessage='Studieprogram'/></td>
-            <td>{user.studyProgram}</td>
-          </tr>
-          <tr>
-            <td><FormattedMessage id='profile.year' defaultMessage='Årskull'/></td>
-            <td>{getAdmission(user)}</td>
-          </tr>
-          <tr className='bottom-divider'>
-            <td><FormattedMessage id='profile.grade' defaultMessage='Klasse'/></td>
-            <td>
-              <FormattedMessage
-                id='profile.class.value'
-                defaultMessage='{year}. klasse'
-                values={{year: user.year}}
-              />
-            </td>
-          </tr>
-          <tr className='top-pad'>
-            <td><FormattedMessage id='profile.password' defaultMessage='Passord'/></td>
-            <td>
-              {
-                editingPassword ? (
+                    <FormattedMessage
+                      id="profile.change"
+                      defaultMessage="Endre profil"
+                    />
+                  )}
+                </Link>
+              </td>
+            </tr>
+            <tr className="top-pad">
+              <td>
+                <FormattedMessage
+                  id="profile.studyprogram"
+                  defaultMessage="Studieprogram"
+                />
+              </td>
+              <td>{user.studyProgram}</td>
+            </tr>
+            <tr>
+              <td>
+                <FormattedMessage id="profile.year" defaultMessage="Årskull" />
+              </td>
+              <td>{getAdmission(user)}</td>
+            </tr>
+            <tr className="bottom-divider">
+              <td>
+                <FormattedMessage id="profile.grade" defaultMessage="Klasse" />
+              </td>
+              <td>
+                <FormattedMessage
+                  id="profile.class.value"
+                  defaultMessage="{year}. klasse"
+                  values={{ year: user.year }}
+                />
+              </td>
+            </tr>
+            <tr className="top-pad">
+              <td>
+                <FormattedMessage
+                  id="profile.password"
+                  defaultMessage="Passord"
+                />
+              </td>
+              <td>
+                {editingPassword ? (
                   <Column>
                     <Form>
                       <Input
                         password
                         value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
-                        placeholder={intl.formatMessage(messages.currentPassword)}
-
+                        onChange={e => setCurrentPassword(e.target.value)}
+                        placeholder={intl.formatMessage(
+                          messages.currentPassword
+                        )}
                       />
                       <Input
                         password
                         value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
+                        onChange={e => setNewPassword(e.target.value)}
                         placeholder={intl.formatMessage(messages.newPassword)}
                       />
                     </Form>
@@ -283,40 +362,52 @@ const Profile: React.FC<ProfileProps> = ({user, userEdited, userSignedOut, intl}
                       {editingPasswordLoading ? (
                         intl.formatMessage(messages.saving)
                       ) : (
-                        <FormattedMessage id='profile.save-new-password' defaultMessage='Endre passord'/>
+                        <FormattedMessage
+                          id="profile.save-new-password"
+                          defaultMessage="Endre passord"
+                        />
                       )}
                     </Link>
                   </Column>
                 ) : (
                   <Link onClick={changePassword}>
-                    <FormattedMessage id='profile.change-password' defaultMessage='Klikk for å endre passord'/>
+                    <FormattedMessage
+                      id="profile.change-password"
+                      defaultMessage="Klikk for å endre passord"
+                    />
                   </Link>
-                )
-              }
-            </td>
-          </tr>
-          <tr>
-            <td/>
-            <td>
-              <Link onClick={resetPasswordUsingMail}>
-                <FormattedMessage id='profile.reset-password'
-                                  defaultMessage='Klikk for å få tilbakestillingslenke på e-post'/>
-              </Link>
-            </td>
-          </tr>
-          <tr>
-            <td><FormattedMessage id='profile.account' defaultMessage='Konto'/></td>
-            <td>
-              <Link onClick={() => setDeleteOpenDialog(true)}>
-                <FormattedMessage id='profile.delete-my-account' defaultMessage='Slett min konto'/>
-              </Link>
-            </td>
-          </tr>
+                )}
+              </td>
+            </tr>
+            <tr>
+              <td />
+              <td>
+                <Link onClick={resetPasswordUsingMail}>
+                  <FormattedMessage
+                    id="profile.reset-password"
+                    defaultMessage="Klikk for å få tilbakestillingslenke på e-post"
+                  />
+                </Link>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <FormattedMessage id="profile.account" defaultMessage="Konto" />
+              </td>
+              <td>
+                <Link onClick={() => setDeleteOpenDialog(true)}>
+                  <FormattedMessage
+                    id="profile.delete-my-account"
+                    defaultMessage="Slett min konto"
+                  />
+                </Link>
+              </td>
+            </tr>
           </tbody>
         </InfoTable>
-        <Divider/>
-        <IconButton iconPath={mdiExitToApp} className='logout' onClick={logout}>
-          <FormattedMessage id='profile.logout' defaultMessage='Logg ut'/>
+        <Divider />
+        <IconButton iconPath={mdiExitToApp} className="logout" onClick={logout}>
+          <FormattedMessage id="profile.logout" defaultMessage="Logg ut" />
         </IconButton>
         <AlertDialog
           open={deleteOpenDialog}
@@ -340,7 +431,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   userSignedOut: () => dispatch(userSignedOut())
 });
 
-export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Profile));
+export default injectIntl(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Profile)
+);
 
 /*
 

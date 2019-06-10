@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import {darkBlue, darkerBlue, grayBorder, yellow} from "../../colors";
-import {ComponentType} from "react";
+import { darkBlue, darkerBlue, grayBorder, yellow } from "../../colors";
+import { ComponentType } from "react";
 
 export const AdminWrapper = styled.div`
   flex: 1;
@@ -22,7 +22,7 @@ export const PageListSeparator = styled.div`
   height: 1px;
   width: calc(100% - 1rem);
   background: ${yellow};
-  margin: 0 .5rem .5rem;
+  margin: 0 0.5rem 0.5rem;
 `;
 
 export interface AdminPageItemProps {
@@ -34,12 +34,13 @@ export interface AdminPageItemProps {
 }
 
 export const AdminPageItem = styled.div<AdminPageItemProps>`
-  padding: .75rem .5rem;
+  padding: 0.75rem 0.5rem;
   text-align: center;
   font-size: 1.1rem;
   cursor: pointer;
-  background: ${(props: AdminPageItemProps) => props.checked ? yellow : 'unset'};
-  
+  background: ${(props: AdminPageItemProps) =>
+    props.checked ? yellow : "unset"};
+
   // Make the text unselectable
   -webkit-touch-callout: none;
   -webkit-user-select: none;

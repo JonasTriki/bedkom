@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import {darkBlue, grayBorder, redError} from "../../colors";
+import styled from "styled-components";
+import { darkBlue, grayBorder, redError } from "../../colors";
 
 export const Wrapper = styled.div`
   flex: 1;
@@ -31,9 +31,9 @@ export const Form = styled.form`
   width: 20rem;
   display: flex;
   flex-direction: column;
-  
+
   > * {
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
   }
 `;
 

@@ -1,4 +1,4 @@
-import {FoodEntry} from "./Menu";
+import { FoodEntry } from "./Menu";
 
 export interface Presentation {
   id: string;
@@ -7,7 +7,7 @@ export interface Presentation {
     name: string;
     bannerImgUrl: string;
     website: string;
-  },
+  };
   registrations: number;
   capacity: number;
   minStudyYear: number;
@@ -22,6 +22,6 @@ export interface Presentation {
   menu?: {
     url: string;
     foodEntries: FoodEntry[];
-  },
+  };
   description: string;
 }

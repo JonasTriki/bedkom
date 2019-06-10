@@ -1,40 +1,40 @@
-import {defineMessages} from "react-intl";
+import { defineMessages } from "react-intl";
 
 export const messages = defineMessages({
   home: {
-    id: 'menu.home',
-    defaultMessage: 'Hjem',
+    id: "menu.home",
+    defaultMessage: "Hjem"
   },
   presentations: {
-    id: 'menu.presentations',
-    defaultMessage: 'Presentasjoner',
+    id: "menu.presentations",
+    defaultMessage: "Presentasjoner"
   },
   company: {
-    id: 'menu.company',
-    defaultMessage: 'For bedrifter',
+    id: "menu.company",
+    defaultMessage: "For bedrifter"
   },
   about: {
-    id: 'menu.about',
-    defaultMessage: 'Om Bedkom',
+    id: "menu.about",
+    defaultMessage: "Om Bedkom"
   },
   admin: {
-    id: 'menu.admin',
-    defaultMessage: 'Admin',
+    id: "menu.admin",
+    defaultMessage: "Admin"
   },
   signIn: {
-    id: 'menu.sign-in',
-    defaultMessage: 'Logg inn',
+    id: "menu.sign-in",
+    defaultMessage: "Logg inn"
   },
   chooseLanguage: {
-    id: 'choose.language',
-    defaultMessage: 'Velg språk...',
+    id: "choose.language",
+    defaultMessage: "Velg språk..."
   },
   norwegian: {
-    id: 'language.norwegian',
-    defaultMessage: 'Norsk',
+    id: "language.norwegian",
+    defaultMessage: "Norsk"
   },
   english: {
-    id: 'language.english',
-    defaultMessage: 'Engelsk',
-  },
+    id: "language.english",
+    defaultMessage: "Engelsk"
+  }
 });

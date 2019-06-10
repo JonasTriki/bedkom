@@ -1,7 +1,7 @@
 import * as React from "react";
 import Icon from "@mdi/react";
 import styled from "styled-components";
-import {darkBlue} from "../../../colors";
+import { darkBlue } from "../../../colors";
 
 export interface InfoSectionProps {
   icon: string;
@@ -11,7 +11,7 @@ export interface InfoSectionProps {
 
 const MainStyle = styled.div`
   display: grid;
-  grid-row-gap: .5rem;
+  grid-row-gap: 0.5rem;
   justify-items: center;
 `;
 
@@ -34,10 +34,10 @@ const Info = styled.div`
   text-align: center;
 `;
 
-const InfoSection: React.FC<InfoSectionProps> = (props) => (
+const InfoSection: React.FC<InfoSectionProps> = props => (
   <MainStyle>
     <IconWrapper>
-      <Icon path={props.icon} color='white' size='4rem'/>
+      <Icon path={props.icon} color="white" size="4rem" />
     </IconWrapper>
     <Title>{props.title}</Title>
     <Info>{props.description}</Info>

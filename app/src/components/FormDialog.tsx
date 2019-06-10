@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Dialog} from "@material-ui/core";
+import { Dialog } from "@material-ui/core";
 import DialogTitle from "../styles/DialogTitle";
 
 interface FormDialogProps {
@@ -8,15 +8,14 @@ interface FormDialogProps {
   onClose: () => void;
 }
 
-const FormDialog: React.FC<FormDialogProps> = ({open, onClose, title, children}) => {
-
+const FormDialog: React.FC<FormDialogProps> = ({
+  open,
+  onClose,
+  title,
+  children
+}) => {
   return (
-    <Dialog
-      fullWidth
-      open={open}
-      onClose={onClose}
-      scroll='paper'
-    >
+    <Dialog fullWidth open={open} onClose={onClose} scroll="paper">
       <DialogTitle onClose={onClose}>{title}</DialogTitle>
       {children}
     </Dialog>

@@ -1,22 +1,22 @@
-import {defineMessages} from "react-intl";
+import { defineMessages } from "react-intl";
 
 const messages = defineMessages({
   presentations: {
-    id: 'admin.presentations',
-    defaultMessage: 'Presentasjoner',
+    id: "admin.presentations",
+    defaultMessage: "Presentasjoner"
   },
   companies: {
-    id: 'admin.companies',
-    defaultMessage: 'Bedrifter',
+    id: "admin.companies",
+    defaultMessage: "Bedrifter"
   },
   menus: {
-    id: 'admin.menus',
-    defaultMessage: 'Menyer',
+    id: "admin.menus",
+    defaultMessage: "Menyer"
   },
   users: {
-    id: 'admin.users',
-    defaultMessage: 'Brukere',
-  },
+    id: "admin.users",
+    defaultMessage: "Brukere"
+  }
 });
 
 export default messages;

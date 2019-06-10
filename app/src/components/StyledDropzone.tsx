@@ -1,6 +1,6 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import {DropzoneRootProps, DropzoneState, useDropzone} from 'react-dropzone';
+import * as React from "react";
+import styled from "styled-components";
+import { DropzoneRootProps, DropzoneState, useDropzone } from "react-dropzone";
 
 interface StyledDropzoneProps {
   accept: string;
@@ -13,15 +13,15 @@ interface StyledDropzoneProps {
 
 const getColor = (props: DropzoneState) => {
   if (props.isDragAccept) {
-    return '#00e676';
+    return "#00e676";
   }
   if (props.isDragReject) {
-    return '#ff1744';
+    return "#ff1744";
   }
   if (props.isDragActive) {
-    return '#2196f3';
+    return "#2196f3";
   }
-  return '#eeeeee';
+  return "#eeeeee";
 };
 
 const Container = styled.div<DropzoneRootProps & DropzoneState>`
@@ -37,16 +37,20 @@ const Container = styled.div<DropzoneRootProps & DropzoneState>`
   background-color: #fafafa;
   color: #bdbdbd;
   outline: none;
-  transition: border .24s ease-in-out;
+  transition: border 0.24s ease-in-out;
   cursor: pointer;
-  
+
   img {
     max-height: 4rem;
     max-width: 15rem;
   }
 `;
 
-const StyledDropzone: React.FC<StyledDropzoneProps> = ({placeholder, showImage, ...props}) => {
+const StyledDropzone: React.FC<StyledDropzoneProps> = ({
+  placeholder,
+  showImage,
+  ...props
+}) => {
   const {
     acceptedFiles,
     getRootProps,
@@ -54,14 +58,16 @@ const StyledDropzone: React.FC<StyledDropzoneProps> = ({placeholder, showImage, 
     isDragActive,
     isDragAccept,
     isDragReject
-  } = useDropzone({...props});
+  } = useDropzone({ ...props });
   const gotImage = showImage && acceptedFiles.length === 1;
 
   return (
-    <Container {...getRootProps({isDragActive, isDragAccept, isDragReject})}>
+    <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
       <input {...getInputProps()} />
       {gotImage ? (
-        <p><img src={URL.createObjectURL(acceptedFiles[0])} alt='Banner'/></p>
+        <p>
+          <img src={URL.createObjectURL(acceptedFiles[0])} alt="Banner" />
+        </p>
       ) : (
         <p>{placeholder}</p>
       )}

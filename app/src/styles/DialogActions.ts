@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {grayBorder} from "../colors";
+import { grayBorder } from "../colors";
 
 export const DialogActions = styled.div`
   padding: 1rem;
@@ -8,8 +8,8 @@ export const DialogActions = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  
+
   > button {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
   }
 `;

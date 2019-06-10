@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Redirect, Route, RouteProps} from "react-router";
+import { Redirect, Route, RouteProps } from "react-router";
 
 export interface RestrictedRouteProps extends RouteProps {
   isAuthenticated: boolean;
@@ -8,13 +8,13 @@ export interface RestrictedRouteProps extends RouteProps {
 
 export class RestrictedRoute extends Route<RestrictedRouteProps> {
   render() {
-    const {isAuthenticated, authenticationPath, location} = this.props;
+    const { isAuthenticated, authenticationPath, location } = this.props;
     if (!isAuthenticated) {
       return (
         <Redirect
           to={{
             pathname: authenticationPath,
-            state: {from: location}
+            state: { from: location }
           }}
         />
       );

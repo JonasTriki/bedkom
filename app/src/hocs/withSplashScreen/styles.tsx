@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {darkBlue, yellow} from "../../colors";
+import { darkBlue, yellow } from "../../colors";
 import logo from "../../images/logo.svg";
 
 export const LoadingWrapper = styled.div`

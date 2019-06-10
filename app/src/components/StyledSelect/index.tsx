@@ -1,70 +1,70 @@
-import * as React from 'react';
-import Select from 'react-select';
-import {Props} from "react-select/lib/Select";
-import {darkBlue, grayBorder, lightYellow, yellow} from "../../colors";
-import {StylesConfig} from "react-select/lib/styles";
+import * as React from "react";
+import Select from "react-select";
+import { Props } from "react-select/lib/Select";
+import { darkBlue, grayBorder, lightYellow, yellow } from "../../colors";
+import { StylesConfig } from "react-select/lib/styles";
 
 export const TransparentStyle = (width: string): StylesConfig => ({
-  singleValue: (base) => ({
+  singleValue: base => ({
     ...base,
     color: "#fff",
-    fontSize: "1.25rem",
+    fontSize: "1.25rem"
   }),
-  container: (base) => ({
+  container: base => ({
     ...base,
     width: width
   }),
-  control: (base) => ({
+  control: base => ({
     ...base,
     border: "unset",
-    backgroundColor: "transparent",
+    backgroundColor: "transparent"
   }),
-  option: (base) => ({
+  option: base => ({
     ...base,
     color: darkBlue,
-    fontSize: "1.25rem",
+    fontSize: "1.25rem"
   }),
-  indicatorSeparator: (base) => ({
+  indicatorSeparator: base => ({
     ...base,
-    display: 'none'
-  }),
+    display: "none"
+  })
 });
 
-export const DefaultStyle: StylesConfig = ({
-  singleValue: (base) => ({
+export const DefaultStyle: StylesConfig = {
+  singleValue: base => ({
     ...base,
     color: darkBlue,
-    fontSize: "1.25rem",
+    fontSize: "1.25rem"
   }),
-  control: (base) => ({
+  control: base => ({
     ...base,
     border: `1px solid ${grayBorder}`,
-    backgroundColor: "white",
+    backgroundColor: "white"
   }),
-  option: (base) => ({
+  option: base => ({
     ...base,
     color: darkBlue,
-    fontSize: "1.25rem",
+    fontSize: "1.25rem"
   }),
-  indicatorSeparator: (base) => ({
+  indicatorSeparator: base => ({
     ...base,
-    display: 'none'
-  }),
-});
+    display: "none"
+  })
+};
 
 export const StyledSelect = (props: Props) => (
   <Select
     styles={DefaultStyle}
     {...props}
-    theme={(theme) => ({
+    theme={theme => ({
       ...theme,
       colors: {
         ...theme.colors,
         primary: yellow,
         primary75: yellow,
         primary50: lightYellow,
-        primary25: lightYellow,
-      },
+        primary25: lightYellow
+      }
     })}
   />
 );

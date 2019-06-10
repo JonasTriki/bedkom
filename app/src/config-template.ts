@@ -4,34 +4,28 @@ interface Config {
 }
 
 const local = {
-
   // API base url (i.e: http://localhost:8080)
-  apiBaseUrl: "TODO",
-
+  apiBaseUrl: "TODO"
 };
 
 const dev = {
-
   // API base url
-  apiBaseUrl: "TODO",
-
+  apiBaseUrl: "TODO"
 };
 
 const prod = {
-
   // API base url
-  apiBaseUrl: "TODO",
-
+  apiBaseUrl: "TODO"
 };
 
 const appStage = process.env.REACT_APP_STAGE;
 
 let stage = local;
 switch (appStage) {
-  case 'dev':
+  case "dev":
     stage = dev;
     break;
-  case 'prod':
+  case "prod":
     stage = prod;
     break;
   default:
@@ -42,7 +36,7 @@ const config: Config = {
   ...stage,
 
   // All configs below are shared across all stages.
-  isProd: appStage === 'prod'
+  isProd: appStage === "prod"
 };
 
 export default config;

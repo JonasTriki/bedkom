@@ -1,20 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import {ValueType} from "react-select/lib/types";
-import {connect} from "react-redux";
-import {FormattedMessage, FormattedHTMLMessage, injectIntl, InjectedIntlProps} from 'react-intl';
-import {Wrapper, Container, Title, Form, Instructions, Info} from "./styles";
-import {Button} from '../../styles/Button';
-import {StyledSelect} from '../../components/StyledSelect';
+import React, { useEffect, useState } from "react";
+import { ValueType } from "react-select/lib/types";
+import { connect } from "react-redux";
+import {
+  FormattedMessage,
+  FormattedHTMLMessage,
+  injectIntl,
+  InjectedIntlProps
+} from "react-intl";
+import { Wrapper, Container, Title, Form, Instructions, Info } from "./styles";
+import { Button } from "../../styles/Button";
+import { StyledSelect } from "../../components/StyledSelect";
 import * as api from "../../api/endpoints";
-import {ApiResponse} from "../../models/ApiResponse";
-import {messages} from './messages';
-import {RootState} from "../../store";
-import {Dispatch} from "redux";
-import {userAuthenticated} from "../../api/actions";
-import {Input} from "../../styles/Input";
-import {Link} from "../../styles/Link";
-import {User} from "../../models/User";
-import {ErrorMessage} from "../../styles/ErrorMessage";
+import { ApiResponse } from "../../models/ApiResponse";
+import { messages } from "./messages";
+import { RootState } from "../../store";
+import { Dispatch } from "redux";
+import { userAuthenticated } from "../../api/actions";
+import { Input } from "../../styles/Input";
+import { Link } from "../../styles/Link";
+import { User } from "../../models/User";
+import { ErrorMessage } from "../../styles/ErrorMessage";
 
 interface LoginProps extends InjectedIntlProps {
   isAuthenticated: boolean;
@@ -24,54 +29,59 @@ interface LoginProps extends InjectedIntlProps {
 type OrgType = { label: string; value: string };
 
 const orgValues = [
-  {value: 'uib', label: 'UiB'},
-  {value: 'hvl', label: 'HVL'},
+  { value: "uib", label: "UiB" },
+  { value: "hvl", label: "HVL" }
 ];
 
-type LoginStage = 'login' | 'first-time-setup' | 'user-verification';
+type LoginStage = "login" | "first-time-setup" | "user-verification";
 
 interface FirstLogin {
   token: string;
   email: string;
 }
 
-const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Login = injectIntl<LoginProps>(({ intl, userAuthenticated }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [org, setOrg] = useState(orgValues[0]);
 
-  const [stage, setStage] = useState<LoginStage>('login');
+  const [stage, setStage] = useState<LoginStage>("login");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
   // First-time setup
-  const [verToken, setVerToken] = useState('');
-  const [email, setEmail] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [allergies, setAllergies] = useState('');
+  const [verToken, setVerToken] = useState("");
+  const [email, setEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [allergies, setAllergies] = useState("");
 
   // User verification password
-  const [feidePassword, setFeidePassword] = useState('');
+  const [feidePassword, setFeidePassword] = useState("");
 
   // Reset error when user changes input
-  useEffect(() => setError(''), [
-    username, password, org, stage, verToken, email, newPassword, feidePassword
+  useEffect(() => setError(""), [
+    username,
+    password,
+    org,
+    stage,
+    verToken,
+    email,
+    newPassword,
+    feidePassword
   ]);
 
   const actionRequired = (response: ApiResponse) => {
     switch (response.message) {
-      case 'user-verification':
-
+      case "user-verification":
         // User has to re-verify for the semester.
-        setStage('user-verification');
+        setStage("user-verification");
         break;
-      case 'first-time-setup':
-
+      case "first-time-setup":
         // First time login for a user; first-login setup is required.
         const firstLogin: FirstLogin = response.data;
         setVerToken(firstLogin.token);
         setEmail(firstLogin.email);
-        setStage('first-time-setup');
+        setStage("first-time-setup");
         break;
       default:
         break;
@@ -95,27 +105,22 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
     // Check our API result's status codes
     switch (response.status) {
       case 200:
-
         // Signed in ok! Data contains user info.
         return userAuthenticated(respData.data.user);
       case 202:
-
         // Action required qqby the user
         actionRequired(respData);
         break;
       case 400:
       case 401:
-
         // Invalid username/password combination
         setError(intl.formatMessage(messages.invalidUsernamePassword));
         break;
       case 403:
-
         // Student is not an informatics student
         setError(intl.formatMessage(messages.studentNotInformatics));
         break;
       default:
-
         // Unexpected error occured
         setError(intl.formatMessage(messages.unexpectedErrorLogin));
         break;
@@ -129,7 +134,13 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
     if (loading) return;
     setLoading(true);
 
-    const response = await api.usersSetup(username, newPassword, verToken, email, allergies);
+    const response = await api.usersSetup(
+      username,
+      newPassword,
+      verToken,
+      email,
+      allergies
+    );
     if (!response || response.status !== 200) {
       setError(intl.formatMessage(messages.unexpectedError));
       setLoading(false);
@@ -156,21 +167,17 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
     // Check our API result's status codes
     switch (response.status) {
       case 200:
-
         // User verification ok! Data contains user info.
         return userAuthenticated(response.data.data.user);
       case 401:
-
         // Invalid Feide-password combination
         setError(intl.formatMessage(messages.invalidPassword));
         break;
       case 403:
-
         // Student is not an informatics student
         setError(intl.formatMessage(messages.studentNotInformatics));
         break;
       default:
-
         // Unexpected error occured
         setError(intl.formatMessage(messages.unexpectedError));
         break;
@@ -183,21 +190,21 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
       <Container>
         <Title>
           <FormattedMessage
-            id='login.header'
-            defaultMessage='Logg inn til Bedkom'
+            id="login.header"
+            defaultMessage="Logg inn til Bedkom"
           />
         </Title>
         <Form>
           <Input
             value={username}
-            placeholder='Brukernavn'
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Brukernavn"
+            onChange={e => setUsername(e.target.value)}
           />
           <Input
             password
             value={password}
-            placeholder='Passord'
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Passord"
+            onChange={e => setPassword(e.target.value)}
           />
           <StyledSelect
             value={org}
@@ -206,22 +213,21 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
             placeholder={intl.formatMessage(messages.institution)}
             onChange={(org: ValueType<OrgType>) => setOrg(org as OrgType)}
           />
-          <Button
-            onClick={loginClicked}>
+          <Button onClick={loginClicked}>
             {intl.formatMessage(messages.signIn)}
           </Button>
         </Form>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Link>
           <FormattedMessage
-            id='login.forgot-password'
-            defaultMessage='Glemt passord?'
+            id="login.forgot-password"
+            defaultMessage="Glemt passord?"
           />
         </Link>
       </Container>
       <Instructions>
         <FormattedHTMLMessage
-          id='login.instructions'
+          id="login.instructions"
           defaultMessage='
                 <i>Instruksjoner</i><br />
                 <span class="emphasis">Student</span>: Dersom du er ny til systemet, logg inn med ditt UiB brukernavn (f.eks: abc123) og passord.<br />
@@ -237,14 +243,14 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
       <Container>
         <Title>
           <FormattedMessage
-            id='login.first-time-setup.header'
-            defaultMessage='Velkommen til Bedkom!'
+            id="login.first-time-setup.header"
+            defaultMessage="Velkommen til Bedkom!"
           />
         </Title>
         <Info>
           <FormattedMessage
-            id='login.first-time-setup.info'
-            defaultMessage='Før vi kan opprette brukeren din, er du nødt til å se over at e-postadressen nedenfor stemmer, samt opprette nytt innloggings-passord.'
+            id="login.first-time-setup.info"
+            defaultMessage="Før vi kan opprette brukeren din, er du nødt til å se over at e-postadressen nedenfor stemmer, samt opprette nytt innloggings-passord."
           />
         </Info>
         <Form>
@@ -252,21 +258,20 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
             email
             value={email}
             placeholder={intl.formatMessage(messages.email)}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
           />
           <Input
             password
             value={newPassword}
             placeholder={intl.formatMessage(messages.newPassword)}
-            onChange={(e) => setNewPassword(e.target.value)}
+            onChange={e => setNewPassword(e.target.value)}
           />
           <Input
             value={allergies}
             placeholder={intl.formatMessage(messages.allergies)}
-            onChange={(e) => setAllergies(e.target.value)}
+            onChange={e => setAllergies(e.target.value)}
           />
-          <Button
-            onClick={setupLoginClicked}>
+          <Button onClick={setupLoginClicked}>
             {intl.formatMessage(messages.signIn)}
           </Button>
         </Form>
@@ -280,14 +285,14 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
       <Container>
         <Title>
           <FormattedMessage
-            id='login.user-verification.header'
-            defaultMessage='Hallaien!'
+            id="login.user-verification.header"
+            defaultMessage="Hallaien!"
           />
         </Title>
         <Info>
           <FormattedMessage
-            id='login.user-verification.info'
-            defaultMessage='For at vi skal kunne logge deg inn, er vi nødt til å få verifisert at du er tilknyttet Institutt for informatikk. Vennligst skriv inn ditt Feide-passord og logg inn for å verifisere deg.'
+            id="login.user-verification.info"
+            defaultMessage="For at vi skal kunne logge deg inn, er vi nødt til å få verifisert at du er tilknyttet Institutt for informatikk. Vennligst skriv inn ditt Feide-passord og logg inn for å verifisere deg."
           />
         </Info>
         <Form>
@@ -295,10 +300,9 @@ const Login = injectIntl<LoginProps>(({intl, userAuthenticated}) => {
             password
             value={feidePassword}
             placeholder={intl.formatMessage(messages.feidePassword)}
-            onChange={(e) => setFeidePassword(e.target.value)}
+            onChange={e => setFeidePassword(e.target.value)}
           />
-          <Button
-            onClick={verifyUserLoginClicked}>
+          <Button onClick={verifyUserLoginClicked}>
             {intl.formatMessage(messages.signIn)}
           </Button>
         </Form>
@@ -324,7 +328,10 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  userAuthenticated: (user: User) => dispatch(userAuthenticated(user)),
+  userAuthenticated: (user: User) => dispatch(userAuthenticated(user))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

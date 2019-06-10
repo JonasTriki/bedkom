@@ -7,5 +7,5 @@ export default {
   presentations: PresentationsPage,
   companies: CompaniesPage,
   menus: MenusPage,
-  users: UsersPage,
+  users: UsersPage
 };

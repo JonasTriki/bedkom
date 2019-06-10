@@ -1,5 +1,5 @@
-import * as React from 'react';
-import {injectIntl, InjectedIntlProps} from 'react-intl';
+import * as React from "react";
+import { injectIntl, InjectedIntlProps } from "react-intl";
 import {
   Banner,
   News,
@@ -11,23 +11,23 @@ import {
   Articles,
   PresentationInfo
 } from "./styles";
-import {RootState} from "../../store";
-import {Dispatch} from "redux";
-import {connect} from "react-redux";
-import {Presentation} from "../../models/Presentation";
-import {Article} from "../../models/Article";
+import { RootState } from "../../store";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import { Presentation } from "../../models/Presentation";
+import { Article } from "../../models/Article";
 import globalMessages from "../../translations/global";
 import messages from "./messages";
-import {Button} from "../../styles/Button";
-import {User} from "../../models/User";
+import { Button } from "../../styles/Button";
+import { User } from "../../models/User";
 import ArticleItem from "./components/ArticleItem";
-import {useState} from "react";
+import { useState } from "react";
 import PresentationDialog from "./components/PresentationDialog";
 import AlertDialog from "../../components/AlertDialog";
-import {registrationsDeregister} from "../../api/endpoints";
-import {errorSnack, successSnack} from "../../styles/SnackbarProps";
-import {useSnackbar} from "notistack";
-import {getSession} from "../../api/actions";
+import { registrationsDeregister } from "../../api/endpoints";
+import { errorSnack, successSnack } from "../../styles/SnackbarProps";
+import { useSnackbar } from "notistack";
+import { getSession } from "../../api/actions";
 
 interface HomeProps extends InjectedIntlProps {
   user: User;
@@ -36,7 +36,13 @@ interface HomeProps extends InjectedIntlProps {
   getSession: () => void;
 }
 
-const Home: React.FC<HomeProps> = ({intl, user, presentations, news, getSession}) => {
+const Home: React.FC<HomeProps> = ({
+  intl,
+  user,
+  presentations,
+  news,
+  getSession
+}) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const nextPresentaion = () => {
@@ -44,7 +50,10 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news, getSession}
     return presentations[0];
   };
   const pres = nextPresentaion();
-  const userSignedUpToPres = (pres && user.presentations) ? user.presentations.indexOf(pres.id) > -1 : false;
+  const userSignedUpToPres =
+    pres && user.presentations
+      ? user.presentations.indexOf(pres.id) > -1
+      : false;
 
   const [presentationDialogOpen, setPresentationDialogOpen] = useState(false);
   const [unregisterDialogOpen, setUnregisterDialogOpen] = useState(false);
@@ -59,7 +68,10 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news, getSession}
 
     const response = await registrationsDeregister(pres.id);
     if (!response || response.status !== 200) {
-      enqueueSnackbar(intl.formatMessage(messages.confirmDeregistrationError), errorSnack);
+      enqueueSnackbar(
+        intl.formatMessage(messages.confirmDeregistrationError),
+        errorSnack
+      );
       return;
     }
 
@@ -67,7 +79,10 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news, getSession}
     // TODO: Dispatch action to users presentation
     getSession();
     setDeregistering(false);
-    enqueueSnackbar(intl.formatMessage(messages.confirmDeregistrationSuccessful), successSnack);
+    enqueueSnackbar(
+      intl.formatMessage(messages.confirmDeregistrationSuccessful),
+      successSnack
+    );
   };
 
   return (
@@ -79,37 +94,36 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news, getSession}
           <>
             <Title>{intl.formatMessage(messages.nextPresentation)}</Title>
             <Banner>
-              <img src={pres.company ? pres.company.bannerImgUrl : ''}/>
+              <img src={pres.company ? pres.company.bannerImgUrl : ""} />
             </Banner>
             <Subtitle>
-              {
-                pres.company
-                  ? intl.formatMessage(messages.welcomeToPresentationWith, {company: pres.company.name})
-                  : intl.formatMessage(messages.welcomeToPresentation)
-              }
+              {pres.company
+                ? intl.formatMessage(messages.welcomeToPresentationWith, {
+                    company: pres.company.name
+                  })
+                : intl.formatMessage(messages.welcomeToPresentation)}
             </Subtitle>
-            <Description>
-              {pres.description}
-            </Description>
-            <Button theme={userSignedUpToPres ? 'red' : 'normal'} onClick={() => {
-              if (userSignedUpToPres) {
-                deregisterDialog();
-              } else {
-                registerDialog();
-              }
-            }}>
-              {
-                userSignedUpToPres
-                  ? intl.formatMessage(messages.clickForDeregistration)
-                  : intl.formatMessage(messages.clickForRegistration)
-              }
+            <Description>{pres.description}</Description>
+            <Button
+              theme={userSignedUpToPres ? "red" : "normal"}
+              onClick={() => {
+                if (userSignedUpToPres) {
+                  deregisterDialog();
+                } else {
+                  registerDialog();
+                }
+              }}
+            >
+              {userSignedUpToPres
+                ? intl.formatMessage(messages.clickForDeregistration)
+                : intl.formatMessage(messages.clickForRegistration)}
             </Button>
             <PresentationInfo>
-              {pres.minStudyYear > 1 ? (
-                intl.formatMessage(messages.presentationOpenFor, {year: pres.minStudyYear})
-              ) : (
-                intl.formatMessage(messages.presentationOpenForAll)
-              )}
+              {pres.minStudyYear > 1
+                ? intl.formatMessage(messages.presentationOpenFor, {
+                    year: pres.minStudyYear
+                  })
+                : intl.formatMessage(messages.presentationOpenForAll)}
             </PresentationInfo>
           </>
         )}
@@ -121,17 +135,16 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news, getSession}
           <>
             <Title>{intl.formatMessage(messages.news)}</Title>
             <Articles>
-              {
-                news.map((article, i) => (
-                  <ArticleItem key={i} article={article}/>
-                ))
-              }
+              {news.map((article, i) => (
+                <ArticleItem key={i} article={article} />
+              ))}
             </Articles>
           </>
         )}
       </News>
       <PresentationDialog
-        open={presentationDialogOpen} setOpen={setPresentationDialogOpen}
+        open={presentationDialogOpen}
+        setOpen={setPresentationDialogOpen}
         presentation={pres}
       />
       <AlertDialog
@@ -153,11 +166,14 @@ const Home: React.FC<HomeProps> = ({intl, user, presentations, news, getSession}
 const mapStateToProps = (state: RootState) => ({
   user: state.api.user,
   presentations: state.api.presentations,
-  news: state.api.news,
+  news: state.api.news
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  getSession: () => dispatch(getSession()),
+  getSession: () => dispatch(getSession())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Home));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(Home));

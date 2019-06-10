@@ -1,6 +1,6 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import {yellow, darkBlue} from '../colors';
+import * as React from "react";
+import styled from "styled-components";
+import { yellow, darkBlue } from "../colors";
 
 const CenteredText = styled.div`
   display: flex;
@@ -14,11 +14,7 @@ const CenteredText = styled.div`
 `;
 
 function ComingSoon() {
-  return (
-    <CenteredText>
-      Kommer snart...
-    </CenteredText>
-  );
+  return <CenteredText>Kommer snart...</CenteredText>;
 }
 
 export default ComingSoon;

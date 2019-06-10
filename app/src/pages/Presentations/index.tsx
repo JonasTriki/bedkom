@@ -1,11 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 
 export class Presentations extends React.Component {
   render() {
-    return (
-      <div>
-        Presentations
-      </div>
-    )
+    return <div>Presentations</div>;
   }
 }

@@ -1,5 +1,5 @@
-import {ApiActions, ApiState, Constants} from "./types";
-import {User} from "../models/User";
+import { ApiActions, ApiState, Constants } from "./types";
+import { User } from "../models/User";
 
 const init: ApiState = {
   user: {} as User,
@@ -9,10 +9,13 @@ const init: ApiState = {
   presentations: null,
   companies: null,
   menus: null,
-  users: null,
+  users: null
 };
 
-export function apiReducer(state: ApiState = init, action: ApiActions): ApiState {
+export function apiReducer(
+  state: ApiState = init,
+  action: ApiActions
+): ApiState {
   switch (action.type) {
     case Constants.GOT_SESSION:
     case Constants.USER_AUTHENTICATED:
@@ -24,7 +27,7 @@ export function apiReducer(state: ApiState = init, action: ApiActions): ApiState
     case Constants.FETCHED_COMPANIES:
     case Constants.FETCHED_MENUS:
     case Constants.FETCHED_USERS:
-      return {...state, ...action.payload};
+      return { ...state, ...action.payload };
     default:
       return state;
   }

@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import {grayBorder, grayedText} from "../../../../../../colors";
+import { grayBorder, grayedText } from "../../../../../../colors";
 
 export const ContactPersonInput = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: .5rem;
-  
+  grid-gap: 0.5rem;
+
   .add-btn {
     grid-column: 1/3;
   }
@@ -22,13 +22,13 @@ export const EmptyCentered = styled.div`
 
 export const ContactPersons = styled.div`
   border: 1px solid ${grayBorder};
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   overflow: scroll;
   height: 10rem;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
-  
+
   :last-child {
     border-bottom: unset;
   }

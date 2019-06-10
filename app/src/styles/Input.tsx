@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {darkBlue, grayBorder} from "../colors";
+import { darkBlue, grayBorder } from "../colors";
 
 interface InputProps {
   file?: boolean;
@@ -7,16 +7,17 @@ interface InputProps {
   password?: boolean;
 }
 
-export const Input = styled.input.attrs(({password, email, file}: InputProps) => ({
+export const Input = styled.input.attrs(
+  ({ password, email, file }: InputProps) => ({
+    // Use specific type if specified
+    type: password ? "password" : email ? "email" : file ? "file" : "text"
+  })
+)<InputProps>`
+  padding: 0.75rem;
 
-  // Use specific type if specified
-  type: password ? "password" : (email ? "email" : (file ? "file": "text")),
-}))<InputProps>`
-  padding: .75rem;
-  
   font-size: 1.25rem;
   color: ${darkBlue};
-  
+
   border: 1px solid ${grayBorder};
-  border-radius: .25rem;
+  border-radius: 0.25rem;
 `;

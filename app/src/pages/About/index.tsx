@@ -1,6 +1,11 @@
-import * as React from 'react';
-import {RouteComponentProps, withRouter} from "react-router";
-import {injectIntl, InjectedIntlProps, FormattedHTMLMessage, FormattedMessage} from "react-intl";
+import * as React from "react";
+import { RouteComponentProps, withRouter } from "react-router";
+import {
+  injectIntl,
+  InjectedIntlProps,
+  FormattedHTMLMessage,
+  FormattedMessage
+} from "react-intl";
 import messages from "./messages";
 import {
   TopInfo,
@@ -13,48 +18,55 @@ import {
   CenteredTitle,
   Members,
   FormWrapper
-} from './styles';
-import InfoSection, {InfoSectionProps} from './components/InfoSection';
-import {mdiAccountGroup, mdiHumanGreeting, mdiPresentation} from "@mdi/js";
+} from "./styles";
+import InfoSection, { InfoSectionProps } from "./components/InfoSection";
+import { mdiAccountGroup, mdiHumanGreeting, mdiPresentation } from "@mdi/js";
 import NextSectionArrow from "./components/NextSectionArrow";
-import Section from './components/Section';
-import {useEffect, useRef, useState} from "react";
-import {connect} from "react-redux";
-import {getBedkomMembers} from "../../api/actions";
-import {RootState} from "../../store";
-import {BedkomMember} from "../../models/BedkomMember";
-import {Dispatch} from "redux";
+import Section from "./components/Section";
+import { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
+import { getBedkomMembers } from "../../api/actions";
+import { RootState } from "../../store";
+import { BedkomMember } from "../../models/BedkomMember";
+import { Dispatch } from "redux";
 import MemberBlock from "./components/MemberBlock";
-import {Form} from '../../styles/Form';
-import {Input} from "../../styles/Input";
-import {Button} from '../../styles/Button';
+import { Form } from "../../styles/Form";
+import { Input } from "../../styles/Input";
+import { Button } from "../../styles/Button";
 import * as api from "../../api/endpoints";
-import {useSnackbar} from "notistack";
-import {errorSnack, infoSnack, successSnack} from "../../styles/SnackbarProps";
+import { useSnackbar } from "notistack";
+import {
+  errorSnack,
+  infoSnack,
+  successSnack
+} from "../../styles/SnackbarProps";
 import isEmail from "validator/lib/isEmail";
-import {MultiInput} from '../../styles/MultiInput';
+import { MultiInput } from "../../styles/MultiInput";
 
 interface AboutProps extends RouteComponentProps, InjectedIntlProps {
   bedkomMembers: BedkomMember[] | null;
   getBedkomMembers: () => void;
 }
 
-const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) => {
+const About: React.FC<AboutProps> = ({
+  intl,
+  getBedkomMembers,
+  bedkomMembers
+}) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const ourMembersRef = useRef<HTMLDivElement>(null);
   const contactFormRef = useRef<HTMLDivElement>(null);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [sendingForm, setSendingForm] = useState(false);
   const resetState = () => {
-
     // TODO: Kind of lame to be doing this all manually, right?
-    setName('');
-    setEmail('');
-    setMessage('');
+    setName("");
+    setEmail("");
+    setMessage("");
     setSendingForm(false);
   };
 
@@ -62,18 +74,18 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
     {
       icon: mdiPresentation,
       title: intl.formatMessage(messages.presentations),
-      description: intl.formatMessage(messages.presentationsInfo),
+      description: intl.formatMessage(messages.presentationsInfo)
     },
     {
       icon: mdiHumanGreeting,
       title: intl.formatMessage(messages.relations),
-      description: intl.formatMessage(messages.relationsInfo),
+      description: intl.formatMessage(messages.relationsInfo)
     },
     {
       icon: mdiAccountGroup,
       title: intl.formatMessage(messages.members),
-      description: intl.formatHTMLMessage(messages.membersInfo),
-    },
+      description: intl.formatHTMLMessage(messages.membersInfo)
+    }
   ];
 
   const validateContactFormInput = () => {
@@ -100,7 +112,10 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
 
     let response = await api.aboutContact(name, email, message);
     if (!response || response.status !== 200) {
-      enqueueSnackbar(intl.formatMessage(messages.errorSendingMessage), errorSnack);
+      enqueueSnackbar(
+        intl.formatMessage(messages.errorSendingMessage),
+        errorSnack
+      );
     } else {
       enqueueSnackbar(intl.formatMessage(messages.messageSent), successSnack);
     }
@@ -112,13 +127,13 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
       <TopInfo>
         <Title>
           <FormattedHTMLMessage
-            id='about.bedkom-title'
-            defaultMessage='<strong>Bedriftskomitéen</strong> ved echo – Fagutvalget for informatikk, UiB'
+            id="about.bedkom-title"
+            defaultMessage="<strong>Bedriftskomitéen</strong> ved echo – Fagutvalget for informatikk, UiB"
           />
         </Title>
         <Description>
           <FormattedHTMLMessage
-            id='about.bedkom-short-desc'
+            id="about.bedkom-short-desc"
             defaultMessage='
               Vi er en undergruppe av <span className="emphasis">echo</span>, med ansvar for å arrangere presentasjoner med bedrifter.
               Vi tilbyr hjelp med planlegging, markedsføring og organisering av presentasjoner fra start til slutt.
@@ -130,10 +145,7 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
       </TopInfo>
       <InfoSections>
         {infoSections.map((props, i) => (
-          <InfoSection
-            key={i}
-            {...props}
-          />
+          <InfoSection key={i} {...props} />
         ))}
       </InfoSections>
       <NextSectionArrow sectionRef={ourMembersRef}>
@@ -146,21 +158,19 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
     <Section ref={ourMembersRef}>
       <LongDescription>
         <FormattedHTMLMessage
-          id='about.bedkom-desc'
-          defaultMessage='
+          id="about.bedkom-desc"
+          defaultMessage="
             Bedriftskomitéen (eller <i>Bedkom</i> for kort) ved echo tilbyr hjelp med planlegging, markedsføring og organisering av ulike arrangement for bedrifter. Dette kan for eksempel være
             bedriftspresentasjoner eller workshops. Vi tilbyr rådgivning til bedrifter om hvordan de kan kommunisere effektivt og målrettet med våre studenter, og
             være en positiv faglig bidragsyter ved Institutt for Informatikk.<br /><br />
 
             Medlemstallet i Bedkom er ikke fastsatt, og nye medlemmer rekrutteres ved behov. Bedriftskomitéens medlemmer velges ikke ved ordinært valg, men ved
             stemmegivning blant eksisterende medlemmer. Ledige posisjoner utlyses på echo sine sider.
-          '
+          "
         />
       </LongDescription>
-      <CenteredTitle>
-        {intl.formatMessage(messages.ourMembers)}
-      </CenteredTitle>
-      <Divider/>
+      <CenteredTitle>{intl.formatMessage(messages.ourMembers)}</CenteredTitle>
+      <Divider />
       <Members>
         {!bedkomMembers ? (
           <div>Laster inn...</div>
@@ -172,7 +182,7 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
           ))
         )}
       </Members>
-      <Divider/>
+      <Divider />
       <NextSectionArrow sectionRef={contactFormRef}>
         {intl.formatMessage(messages.contactForm)}
       </NextSectionArrow>
@@ -183,37 +193,37 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
     <Section ref={contactFormRef}>
       <LongDescription>
         <FormattedMessage
-          id='about.contact-form-info'
-          defaultMessage='
+          id="about.contact-form-info"
+          defaultMessage="
             Dersom du har noen spørsmål angående Bedriftskomitéen, eller hvordan man for eksempel blir medlem, kan du sende en liten melding til oss ved hjelp av skjemaet nedenfor. Vil vi komme tilbake til deg så snart som mulig!
-          '
+          "
         />
       </LongDescription>
       <FormWrapper>
         <CenteredTitle>
           {intl.formatMessage(messages.contactForm)}
         </CenteredTitle>
-        <Form fixedWidth='25rem'>
+        <Form fixedWidth="25rem">
           <Input
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
             placeholder={intl.formatMessage(messages.name)}
           />
           <Input
             email
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             placeholder={intl.formatMessage(messages.email)}
           />
           <MultiInput
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={e => setMessage(e.target.value)}
             placeholder={intl.formatMessage(messages.message)}
           />
           <Button onClick={sendContactForm}>
             <FormattedMessage
-              id='about.contact-form-send'
-              defaultMessage='Send inn'
+              id="about.contact-form-send"
+              defaultMessage="Send inn"
             />
           </Button>
         </Form>
@@ -227,7 +237,7 @@ const About: React.FC<AboutProps> = ({intl, getBedkomMembers, bedkomMembers}) =>
       {membersSection}
       {formSection}
     </Wrapper>
-  )
+  );
 };
 
 const mapStateToProps = (state: RootState) => ({
@@ -238,4 +248,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   getBedkomMembers: () => dispatch(getBedkomMembers())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(withRouter<AboutProps>(About)));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(withRouter<AboutProps>(About)));

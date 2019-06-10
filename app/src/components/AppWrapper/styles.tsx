@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 import styled from "styled-components";
-import {darkBlue, lightBlueBg, yellow} from "../../colors";
+import { darkBlue, lightBlueBg, yellow } from "../../colors";
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -37,10 +37,10 @@ export const Button = styled.div<ButtonProps>`
   cursor: pointer;
   font-size: 1.25rem;
   line-height: 3rem;
-  margin: 0 .5rem;
-  color: ${(props: ButtonProps) => props.active ? yellow : 'white'};
-  transition: color .15s ease-in;
-  
+  margin: 0 0.5rem;
+  color: ${(props: ButtonProps) => (props.active ? yellow : "white")};
+  transition: color 0.15s ease-in;
+
   // Make the text unselectable
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -48,7 +48,7 @@ export const Button = styled.div<ButtonProps>`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-    
+
   :hover {
     color: ${yellow};
   }
@@ -70,7 +70,7 @@ export const Divider = styled.div`
 export const ProfileButton = styled(Button)`
   display: flex;
   align-items: center;
-  
+
   .thumb {
     margin-right: 1rem;
   }
@@ -82,5 +82,4 @@ export const Content = styled.div`
   display: flex;
 `;
 
-export const Footer = styled(Bar)`
-`;
+export const Footer = styled(Bar)``;

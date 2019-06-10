@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {darkBlue85} from "../../colors";
+import { darkBlue85 } from "../../colors";
 import topInfoBg from "./images/top-info-bg.png";
 
 export const Wrapper = styled.div`
@@ -13,7 +13,8 @@ export const TopInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: linear-gradient(${darkBlue85}, ${darkBlue85}), url(${topInfoBg}) center;
+  background: linear-gradient(${darkBlue85}, ${darkBlue85}),
+    url(${topInfoBg}) center;
   background-size: cover;
   color: white;
   padding: 2rem 4rem;

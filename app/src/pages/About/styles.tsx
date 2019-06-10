@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import topInfoBg from './images/top-info-bg.png';
-import {darkBlue, darkBlue85, grayBorder} from "../../colors";
+import topInfoBg from "./images/top-info-bg.png";
+import { darkBlue, darkBlue85, grayBorder } from "../../colors";
 
 export const Wrapper = styled.div`
   flex: 1;
@@ -13,7 +13,8 @@ export const TopInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: linear-gradient(${darkBlue85}, ${darkBlue85}), url(${topInfoBg}) center;
+  background: linear-gradient(${darkBlue85}, ${darkBlue85}),
+    url(${topInfoBg}) center;
   background-size: cover;
   color: white;
   padding: 2rem 4rem;
@@ -62,5 +63,5 @@ export const CenteredTitle = styled.div`
 
 export const Members = styled.div`
   display: grid;
-  grid-row-gap: .5rem;
+  grid-row-gap: 0.5rem;
 `;

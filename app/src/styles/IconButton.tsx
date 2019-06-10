@@ -1,8 +1,8 @@
-import React, {MouseEventHandler} from "react";
-import {darkBlue} from "../colors";
+import React, { MouseEventHandler } from "react";
+import { darkBlue } from "../colors";
 import Icon from "@mdi/react";
 import styled from "styled-components";
-import {Button, ButtonProps} from "./Button";
+import { Button, ButtonProps } from "./Button";
 
 interface IconButtonProps extends ButtonProps {
   iconPath: string;
@@ -12,14 +12,21 @@ interface IconButtonProps extends ButtonProps {
 
 const IconButtonStyle = styled(Button)`
   svg {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 `;
 
-export const IconButton: React.FC<IconButtonProps> = ({iconPath, ...props}) => {
+export const IconButton: React.FC<IconButtonProps> = ({
+  iconPath,
+  ...props
+}) => {
   return (
     <IconButtonStyle {...props}>
-      <Icon path={iconPath} color={(props.theme !== 'white') ? 'white' : darkBlue} size='1rem' />
+      <Icon
+        path={iconPath}
+        color={props.theme !== "white" ? "white" : darkBlue}
+        size="1rem"
+      />
       {props.children}
     </IconButtonStyle>
   );

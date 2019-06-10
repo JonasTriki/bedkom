@@ -1,7 +1,7 @@
-import {connect} from "react-redux";
-import {IntlProvider} from "react-intl";
-import {RootState} from "../store";
-import {messages} from "../";
+import { connect } from "react-redux";
+import { IntlProvider } from "react-intl";
+import { RootState } from "../store";
+import { messages } from "../";
 
 const mapStateToProps = (state: RootState) => {
   const locale = state.lang.locale;
@@ -9,7 +9,7 @@ const mapStateToProps = (state: RootState) => {
     key: locale,
     locale: locale,
     messages: messages[locale]
-  }
+  };
 };
 
 /**
